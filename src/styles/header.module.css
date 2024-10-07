@@ -1,0 +1,21 @@
+.active{
+    position: relative;
+}
+
+.active::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    height: 2px;
+    background-color: white;
+    animation: active .4s forwards;
+}
+@keyframes active {
+    from{
+        width: 0;
+    }
+    to{
+        width: 100%;
+    }
+}
