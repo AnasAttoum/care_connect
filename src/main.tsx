@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './styles/index.css'
+import Loading from './pages/Loading.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <Suspense fallback={<Loading />}>
+    <StrictMode>
+      <App />
+    </StrictMode>
+  </Suspense>,
 )
