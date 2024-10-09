@@ -4,7 +4,7 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateDepartment } from "../../validations/validation";
 import { useParams } from "react-router-dom";
 import { departments } from "../../constants/data";
-import Btn from "../../components/btn";
+import Btn from "../../components/Btn";
 
 export default function EditDepartment() {
 
