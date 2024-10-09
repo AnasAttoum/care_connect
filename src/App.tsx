@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 
 import Header from './components/Header'
+import Loading from './pages/Loading'
 
-const LazyDepartments = lazy(() => import('./pages/Departments'))
-
+const LazyDepartments = lazy(() => import('./pages/Departments/Departments'))
+const LazyAddDepartment = lazy(() => import('./pages/Departments/AddDepartment'))
 
 function App() {
 
@@ -13,8 +14,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Header />}>
 
-          <Route index element={<LazyDepartments />} />
-          
+          <Route index element={<Suspense fallback={<Loading />}><LazyDepartments /></Suspense>} />
+          <Route path='/departments/add' element={<Suspense fallback={<Loading />}><LazyAddDepartment /></Suspense>} />
+
         </Route>
       </Routes>
     </BrowserRouter>
