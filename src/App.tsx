@@ -6,6 +6,7 @@ import Loading from './pages/Loading'
 
 const LazyDepartments = lazy(() => import('./pages/Departments/Departments'))
 const LazyAddDepartment = lazy(() => import('./pages/Departments/AddDepartment'))
+const LazyEditDepartment = lazy(() => import('./pages/Departments/EditDepartment'))
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
 
           <Route index element={<Suspense fallback={<Loading />}><LazyDepartments /></Suspense>} />
           <Route path='/departments/add' element={<Suspense fallback={<Loading />}><LazyAddDepartment /></Suspense>} />
+          <Route path='/departments/:id' element={<Suspense fallback={<Loading />}><LazyEditDepartment /></Suspense>} />
 
         </Route>
       </Routes>

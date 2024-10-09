@@ -4,6 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import { department } from "../constants/types";
+import { Link } from 'react-router-dom';
 
 
 export default function DepartmentCard({ department: { id, name, phone_number, total_rooms, available_rooms, total_doctors, description } }: { department: department }) {
@@ -48,7 +49,7 @@ export default function DepartmentCard({ department: { id, name, phone_number, t
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={handleClose}>Edit</MenuItem>
+                            <MenuItem onClick={handleClose}><Link to={`/departments/${id}`}>Edit</Link></MenuItem>
                             <MenuItem onClick={handleDelete}><span className='text-red-500'>Delete</span></MenuItem>
                         </Menu>
                     </div>
