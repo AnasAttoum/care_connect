@@ -2,6 +2,7 @@ import { useState } from "react";
 import Title from "../../components/Title";
 import BasicTextField from "../../components/BasicTextField";
 import { validateDepartment } from "../../validations/validation";
+import Btn from "../../components/btn";
 
 export default function AddDepartment() {
 
@@ -32,7 +33,7 @@ export default function AddDepartment() {
             formData.append('name', data.name)
             formData.append('phone_number', data.phone_number)
             formData.append('description', data.description)
-            
+
             console.log(formData)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,9 +55,7 @@ export default function AddDepartment() {
                 <BasicTextField val={data.phone_number} handleChange={handleChange} error={error.phone_number} name="phone_number" label="Phone Number" />
                 <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
 
-                <div className="flex justify-center my-5">
-                    <div className="text-white py-2 px-10 rounded-md cursor-pointer bg-[--primary] hover:bg-[--secondary]" onClick={handleAdd}>Add</div>
-                </div>
+                <Btn click={handleAdd} title="Add" />
 
             </div>
 

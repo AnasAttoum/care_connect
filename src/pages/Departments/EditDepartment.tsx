@@ -4,6 +4,7 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateDepartment } from "../../validations/validation";
 import { useParams } from "react-router-dom";
 import { departments } from "../../constants/data";
+import Btn from "../../components/btn";
 
 export default function EditDepartment() {
 
@@ -70,9 +71,7 @@ export default function EditDepartment() {
                 <BasicTextField val={data.phone_number} handleChange={handleChange} error={error.phone_number} name="phone_number" label="Phone Number" />
                 <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
 
-                <div className="flex justify-center my-5">
-                    <div className="text-white py-2 px-10 rounded-md cursor-pointer bg-[--primary] hover:bg-[--secondary]" onClick={handleEdit}>Edit</div>
-                </div>
+                <Btn click={handleEdit} title="Edit" />
 
             </div>
 

@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react'
 import Header from './components/Header'
 import Loading from './pages/Loading'
 
+const LazyLogIn = lazy(() => import('./pages/LogIn'))
 const LazyDepartments = lazy(() => import('./pages/Departments/Departments'))
 const LazyAddDepartment = lazy(() => import('./pages/Departments/AddDepartment'))
 const LazyEditDepartment = lazy(() => import('./pages/Departments/EditDepartment'))
@@ -13,6 +14,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        <Route path='/login' element={<Suspense fallback={<Loading />}><LazyLogIn /></Suspense>} />
+
         <Route path='/' element={<Header />}>
 
           <Route index element={<Suspense fallback={<Loading />}><LazyDepartments /></Suspense>} />
