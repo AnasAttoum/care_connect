@@ -28,9 +28,15 @@ export default function AddDepartment() {
         })
         try {
             await validateDepartment.validate(data, { abortEarly: false })
+            const formData = new FormData()
+            formData.append('name', data.name)
+            formData.append('phone_number', data.phone_number)
+            formData.append('description', data.description)
+            
+            console.log(formData)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        catch (error:any) {
+        catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
             });
