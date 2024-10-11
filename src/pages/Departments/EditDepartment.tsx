@@ -61,7 +61,7 @@ export default function EditDepartment() {
     }
 
     return (
-        <div className="flex justify-center items-center" style={{ minHeight: 'calc(100vh - 72px)' }}>
+        <div className="flex justify-center items-center" style={{ minHeight: 'calc(100vh - 100px)' }}>
 
             <div className="w-screen sm:w-2/3 bg-white rounded-none sm:rounded-2xl" style={{ boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
 
