@@ -2,6 +2,7 @@ import { useInView } from "react-intersection-observer";
 import Title from "../../components/Title";
 import { doctors } from "../../constants/data";
 import { useEffect } from "react";
+import FloatingButton from "../../components/FloatingButton";
 import DoctorCard from "../../components/Cards/DoctorCard";
 
 export default function Doctors() {
@@ -27,6 +28,7 @@ export default function Doctors() {
                 </div>
             </div>
 
+            <FloatingButton url='/doctors/add' tooltip='Add Doctor' />
         </>
     )
 }
