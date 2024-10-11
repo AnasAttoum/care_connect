@@ -2,6 +2,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { links } from "../constants/data";
 
 import styles from '../styles/header.module.css'
+import Footer from "./Footer";
 
 export default function Header() {
 
@@ -29,7 +30,11 @@ export default function Header() {
 
       </div>
 
-      <Outlet />
+      <div className="my-5" style={{ minHeight: 'calc(100vh - 224px)' }}>
+        <Outlet />
+      </div>
+
+      <Footer />
 
     </>
   )
