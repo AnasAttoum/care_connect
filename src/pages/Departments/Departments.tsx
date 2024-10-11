@@ -12,7 +12,7 @@ export default function Departments() {
     useEffect(() => {
         if (inView)
             entry?.target.childNodes.forEach((el, index) => {
-                (el as HTMLElement).style.animation = `animationTitle .7s ${index / 4}s forwards`
+                (el as HTMLElement).style.animation = `animationBasic .7s ${index / 2}s forwards`
             })
     }, [inView, entry])
 
