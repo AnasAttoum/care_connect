@@ -4,12 +4,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import { department } from "../../constants/types";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DeleteDialog from '../DeleteDialog';
 
 
 export default function DepartmentCard({ department: { id, name, phone_number, total_rooms, available_rooms, total_doctors, description } }: { department: department }) {
 
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,7 +55,7 @@ export default function DepartmentCard({ department: { id, name, phone_number, t
                                     'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <Link to={`/departments/edit/${id}`}><MenuItem onClick={handleClose}>Edit</MenuItem></Link>
+                                <MenuItem onClick={()=>{handleClose();setTimeout(()=>{navigate(`/departments/edit/${id}`)},1)}}>Edit</MenuItem>
                                 <MenuItem onClick={handleOpenDeleteModal}><span className='text-red-500'>Delete</span></MenuItem>
                             </Menu>
                         </div>

@@ -2,10 +2,11 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import { doctor } from "../../constants/types";
 import { MouseEvent, useState } from "react";
 import DeleteDialog from "../DeleteDialog";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function DoctorCard({ doctor: { id, name, image, speciality, department_id, mobile_number, job_date, address, salary } }: { doctor: doctor }) {
 
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -53,7 +54,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <Link to={`/doctors/edit/${id}`}><MenuItem onClick={handleClose}>Edit</MenuItem></Link>
+                            <MenuItem onClick={()=>{handleClose();setTimeout(()=>{navigate(`/doctors/edit/${id}`)},1)}}>Edit</MenuItem>
                             <MenuItem onClick={handleOpenDeleteModal}><span className='text-red-500'>Delete</span></MenuItem>
                         </Menu>
                     </div>
