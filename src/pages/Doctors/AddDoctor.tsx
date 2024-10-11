@@ -8,7 +8,7 @@ import BasicSelect from "../../components/BasicSelect";
 import { departments } from "../../constants/data";
 import { department } from "../../constants/types";
 
-export default function AddDoctors() {
+export default function AddDoctor() {
 
     const [data, setData] = useState({
         name: '',

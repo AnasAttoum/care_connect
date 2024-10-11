@@ -26,7 +26,6 @@ export default function EditDepartment() {
             const found = departments.find((department) => {
                 return department.id === parseInt(id)
             })
-
             if(found)
                 setData(found)
         }
