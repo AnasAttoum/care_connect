@@ -12,7 +12,7 @@ export default function Departments() {
     useEffect(() => {
         if (inView)
             entry?.target.childNodes.forEach((el, index) => {
-                (el as HTMLElement).style.animation = `animationTitle .7s ${index / 2}s forwards`
+                (el as HTMLElement).style.animation = `animationTitle .7s ${index / 4}s forwards`
             })
     }, [inView, entry])
 
@@ -21,7 +21,7 @@ export default function Departments() {
             <div className="px-5">
                 <Title title="Our Departments" />
 
-                <div className="flex flex-wrap justify-center gap-5" ref={ref}>
+                <div className="flex flex-wrap justify-center gap-x-4 gap-y-5" ref={ref}>
                     {departments.map((department, index) => {
                         return <DepartmentCard key={index} department={department} />
                     })}
