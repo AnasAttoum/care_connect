@@ -19,3 +19,16 @@
         width: 100%;
     }
 }
+
+.hamb{
+    display: none;
+}
+
+@media (width<800px) {
+    .links{
+        display: none !important;
+    }
+    .hamb{
+        display: inline-block;
+    }
+}
