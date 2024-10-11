@@ -30,7 +30,7 @@ export default function Header() {
 
       </div>
 
-      <div className="my-5" style={{ minHeight: 'calc(100vh - 224px)' }}>
+      <div className="my-5" style={{ minHeight: 'calc(100vh - 100px)' }}>
         <Outlet />
       </div>
 

@@ -8,6 +8,7 @@ const LazyLogIn = lazy(() => import('./pages/LogIn'))
 const LazyDepartments = lazy(() => import('./pages/Departments/Departments'))
 const LazyAddDepartment = lazy(() => import('./pages/Departments/AddDepartment'))
 const LazyEditDepartment = lazy(() => import('./pages/Departments/EditDepartment'))
+const LazyRooms = lazy(() => import('./pages/Rooms/Rooms'))
 
 function App() {
 
@@ -20,8 +21,10 @@ function App() {
         <Route path='/' element={<Header />}>
 
           <Route index element={<Suspense fallback={<Loading />}><LazyDepartments /></Suspense>} />
-          <Route path='/departments/add' element={<Suspense fallback={<Loading />}><LazyAddDepartment /></Suspense>} />
-          <Route path='/departments/:id' element={<Suspense fallback={<Loading />}><LazyEditDepartment /></Suspense>} />
+          <Route path='departments/add' element={<Suspense fallback={<Loading />}><LazyAddDepartment /></Suspense>} />
+          <Route path='departments/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditDepartment /></Suspense>} />
+
+          <Route path='rooms' element={<Suspense fallback={<Loading />}><LazyRooms /></Suspense>} />
 
         </Route>
       </Routes>

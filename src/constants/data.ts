@@ -1,5 +1,6 @@
 export const links = [
-    { name: 'Departments', url: '/' }
+    { name: 'Departments', url: '/' },
+    { name: 'Rooms', url: '/rooms' },
 ]
 
 export const departments = [
@@ -92,5 +93,80 @@ export const departments = [
         available_rooms: 5,
         total_doctors: 25,
         description: "Analyzes tissue samples to diagnose diseases.",
+    },
+];
+
+export const rooms = [
+    {
+        id: 1,
+        room_number: "101",
+        status: "occupied",
+        department_name: "Cardiology",
+        type: "surgical",
+        beds_number: 1,
+    },
+    {
+        id: 2,
+        room_number: "102",
+        status: "vacant",
+        department_name: "General Surgery",
+        type: "ICU",
+        beds_number: 2,
+    },
+    {
+        id: 3,
+        room_number: "103",
+        status: "occupied",
+        department_name: "Pediatrics",
+        type: "surgical",
+        beds_number: 1,
+    },
+    {
+        id: 4,
+        room_number: "201",
+        status: "Under Maintenance",
+        department_name: "Emergency",
+        type: "ICU",
+        beds_number: 4,
+    },
+    {
+        id: 5,
+        room_number: "202",
+        status: "occupied",
+        department_name: "Obstetrics",
+        type: "surgical",
+        beds_number: 1,
+    },
+    {
+        id: 6,
+        room_number: "203",
+        status: "vacant",
+        department_name: "Neurology",
+        type: "ICU",
+        beds_number: 2,
+    },
+    {
+        id: 7,
+        room_number: "301",
+        status: "occupied",
+        department_name: "Oncology",
+        type: "surgical",
+        beds_number: 1,
+    },
+    {
+        id: 8,
+        room_number: "302",
+        status: "vacant",
+        department_name: "Orthopedics",
+        type: "ICU",
+        beds_number: 2,
+    },
+    {
+        id: 9,
+        room_number: "303",
+        status: "occupied",
+        department_name: "Psychiatry",
+        type: "surgical",
+        beds_number: 1,
     },
 ];
