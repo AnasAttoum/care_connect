@@ -1,6 +1,7 @@
 export const links = [
     { name: 'Departments', url: '/' },
     { name: 'Rooms', url: '/rooms' },
+    { name: 'Doctors', url: '/doctors' },
 ]
 
 export const departments = [
@@ -168,5 +169,63 @@ export const rooms = [
         department_name: "Psychiatry",
         type: "surgical",
         beds_number: 1,
+    },
+];
+
+export const doctors = [
+    {
+        id: 1,
+        image: '/images/Jillian Warner.jpg',
+        name: "Dr. John Smith",
+        speciality: "Cardiology",
+        department_id: 1,
+        mobile_number: "123-456-7890",
+        job_date: "2022-01-15",
+        address: "123 Main Street",
+        salary: 150000,
+    },
+    {
+        id: 2,
+        image: '/images/Elina McBride.jpg',
+        name: "Dr. Jane Doe",
+        speciality: "Pediatrics",
+        department_id: 2,
+        mobile_number: "987-654-3210",
+        job_date: "2021-08-20",
+        address: "456 Oak Avenue",
+        salary: 120000,
+    },
+    {
+        id: 3,
+        image: '/images/Tyler Dorsey.jpg',
+        name: "Dr. David Lee",
+        speciality: "Oncology",
+        department_id: 3,
+        mobile_number: "555-123-4567",
+        job_date: "2023-03-01",
+        address: "789 Pine Street",
+        salary: 180000,
+    },
+    {
+        id: 4,
+        image: '/images/Jolie Tanner.jpg',
+        name: "Dr. Emily Wilson",
+        speciality: "Neurology",
+        department_id: 4,
+        mobile_number: "111-222-3333",
+        job_date: "2022-05-10",
+        address: "1011 Elm Street",
+        salary: 160000,
+    },
+    {
+        id: 5,
+        image: '/images/Evelyn Vo.jpg',
+        name: "Dr. Michael Brown",
+        speciality: "Orthopedics",
+        department_id: 5,
+        mobile_number: "444-555-6666",
+        job_date: "2021-12-01",
+        address: "1213 Maple Street",
+        salary: 140000,
     },
 ];

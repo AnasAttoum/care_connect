@@ -3,9 +3,9 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { department } from "../constants/types";
+import { department } from "../../constants/types";
 import { Link } from 'react-router-dom';
-import DeleteDialog from './DeleteDialog';
+import DeleteDialog from '../DeleteDialog';
 
 
 export default function DepartmentCard({ department: { id, name, phone_number, total_rooms, available_rooms, total_doctors, description } }: { department: department }) {
@@ -29,7 +29,7 @@ export default function DepartmentCard({ department: { id, name, phone_number, t
 
     return (
         <>
-            <div className="flex flex-col gap-5 p-5 rounded-2xl cursor-pointer opacity-0 bg-white transition-all hover:bg-slate-50 hover:!scale-105 trans" style={{ width: '350px', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
+            <div className="flex flex-col gap-5 p-5 rounded-2xl opacity-0 bg-white transition-all hover:bg-slate-50 hover:!scale-105 trans" style={{ width: '350px', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
 
                 <div className="text-[--primary]">
                     <div className="flex justify-between">

@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import DepartmentCard from "../../components/DepartmentCard";
+import DepartmentCard from "../../components/Cards/DepartmentCard";
 import Title from "../../components/Title";
 import { departments } from "../../constants/data";
 import { useEffect } from "react";

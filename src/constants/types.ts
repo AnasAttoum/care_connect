@@ -7,3 +7,15 @@ export interface department {
     total_doctors: number,
     description: string
 }
+
+export interface doctor {
+    id: number,
+    name: string,
+    image: string,
+    speciality: string,
+    department_id: number,
+    mobile_number: string,
+    job_date: string,
+    address: string,
+    salary: number,
+}
