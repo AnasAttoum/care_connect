@@ -12,6 +12,7 @@ const LazyEditDepartment = lazy(() => import('./pages/Departments/EditDepartment
 
 const LazyRooms = lazy(() => import('./pages/Rooms/Rooms'))
 const LazyAddRoom = lazy(() => import('./pages/Rooms/AddRoom'))
+const LazyEditRoom = lazy(() => import('./pages/Rooms/EditRoom'))
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
 
           <Route path='rooms' element={<Suspense fallback={<Loading />}><LazyRooms /></Suspense>} />
           <Route path='rooms/add' element={<Suspense fallback={<Loading />}><LazyAddRoom /></Suspense>} />
+          <Route path='rooms/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditRoom /></Suspense>} />
 
         </Route>
       </Routes>
