@@ -5,6 +5,7 @@ import Title from "../../components/Title";
 import { rooms } from '../../constants/data';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
+import FloatingButton from '../../components/FloatingButton';
 
 const columns: GridColDef[] = [
     { field: 'room_number', headerName: 'Room Number', width: 180 },
@@ -49,28 +50,32 @@ export default function Rooms() {
     }, [inView, entry])
 
     return (
-        <div className="px-5">
-            <Title title="Our Rooms" />
+        <>
+            <div className="px-5">
+                <Title title="Our Rooms" />
 
-            <div className='flex justify-center'>
+                <div className='flex justify-center'>
 
-                <Paper sx={{ width: 'fit-content', overflowX: 'scroll', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
+                    <Paper sx={{ width: 'fit-content', overflowX: 'scroll', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', opacity: '0' }} ref={ref}>
-                        <DataGrid
-                            rows={rooms}
-                            columns={columns}
-                            initialState={{ pagination: { paginationModel } }}
-                            pageSizeOptions={[5, 10]}
-                            // checkboxSelection
-                            sx={{ border: 0 }}
-                        />
-                    </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', opacity: '0' }} ref={ref}>
+                            <DataGrid
+                                rows={rooms}
+                                columns={columns}
+                                initialState={{ pagination: { paginationModel } }}
+                                pageSizeOptions={[5, 10]}
+                                // checkboxSelection
+                                sx={{ border: 0 }}
+                            />
+                        </div>
 
-                </Paper>
+                    </Paper>
+
+                </div>
 
             </div>
 
-        </div>
+            <FloatingButton url='/rooms/add' tooltip='Add Room' />
+        </>
     )
 }

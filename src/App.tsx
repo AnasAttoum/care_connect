@@ -5,10 +5,13 @@ import Header from './components/Header'
 import Loading from './pages/Loading'
 
 const LazyLogIn = lazy(() => import('./pages/LogIn'))
+
 const LazyDepartments = lazy(() => import('./pages/Departments/Departments'))
 const LazyAddDepartment = lazy(() => import('./pages/Departments/AddDepartment'))
 const LazyEditDepartment = lazy(() => import('./pages/Departments/EditDepartment'))
+
 const LazyRooms = lazy(() => import('./pages/Rooms/Rooms'))
+const LazyAddRoom = lazy(() => import('./pages/Rooms/AddRoom'))
 
 function App() {
 
@@ -25,6 +28,7 @@ function App() {
           <Route path='departments/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditDepartment /></Suspense>} />
 
           <Route path='rooms' element={<Suspense fallback={<Loading />}><LazyRooms /></Suspense>} />
+          <Route path='rooms/add' element={<Suspense fallback={<Loading />}><LazyAddRoom /></Suspense>} />
 
         </Route>
       </Routes>
