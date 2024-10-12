@@ -39,3 +39,13 @@ export const validateService = Yup.object({
     description: Yup.string().required('Invalid description'),
     department_id: Yup.string().required('Invalid Department'),
 })
+
+
+export const validatePatient = Yup.object({
+    name: Yup.string().required('Invalid name'),
+    birth_date: Yup.string().required('Invalid Birth Date'),
+    gender: Yup.string().oneOf(['Male','Female']).required('Invalid description'),
+    medical_description: Yup.string().required('Invalid medical_description'),
+    address: Yup.string().required('Invalid Address'),
+    mobile_number: Yup.string().required('Invalid Mobile Number'),
+})

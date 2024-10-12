@@ -22,6 +22,10 @@ const LazyServices = lazy(() => import('./pages/Services/Services'))
 const LazyAddService = lazy(() => import('./pages/Services/AddService'))
 const LazyEditService = lazy(() => import('./pages/Services/EditService'))
 
+const LazyPatients = lazy(() => import('./pages/Patients/Patients'))
+const LazyAddPatient = lazy(() => import('./pages/Patients/AddPatient'))
+const LazyEditPatient = lazy(() => import('./pages/Patients/EditPatient'))
+
 function App() {
 
   return (
@@ -47,6 +51,10 @@ function App() {
           <Route path='services' element={<Suspense fallback={<Loading />}><LazyServices /></Suspense>} />
           <Route path='services/add' element={<Suspense fallback={<Loading />}><LazyAddService /></Suspense>} />
           <Route path='services/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditService /></Suspense>} />
+
+          <Route path='patients' element={<Suspense fallback={<Loading />}><LazyPatients /></Suspense>} />
+          <Route path='patients/add' element={<Suspense fallback={<Loading />}><LazyAddPatient /></Suspense>} />
+          <Route path='patients/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditPatient /></Suspense>} />
 
         </Route>
       </Routes>

@@ -3,6 +3,7 @@ export const links = [
     { name: 'Rooms', url: '/rooms' },
     { name: 'Doctors', url: '/doctors' },
     { name: 'Services', url: '/services' },
+    { name: 'Patients', url: '/patients' },
 ]
 
 export const departments = [
@@ -304,4 +305,52 @@ export const services = [
         description: "Dispenses medications and provides medication counseling.",
         department_id: 3
     },
+];
+
+export const patients = [
+    {
+        id: 1,
+        name: "John Doe",
+        birth_date: "1980-01-15",
+        gender: "Male",
+        medical_description: "High blood pressure",
+        address: "123 Main Street, Anytown, USA",
+        mobile_number: "555-123-4567"
+    },
+    {
+        id: 2,
+        name: "Jane Smith",
+        birth_date: "1975-08-22",
+        gender: "Female",
+        medical_description: "Broken leg",
+        address: "456 Oak Avenue, Someville, USA",
+        mobile_number: "555-987-6543"
+    },
+    {
+        id: 3,
+        name: "Robert Johnson",
+        birth_date: "1992-03-07",
+        gender: "Male",
+        medical_description: "Flu",
+        address: "789 Pine Lane, Springfield, USA",
+        mobile_number: "555-555-1212"
+    },
+    {
+        id: 4,
+        name: "Mary Brown",
+        birth_date: "1988-11-10",
+        gender: "Female",
+        medical_description: "Allergy",
+        address: "1011 Cedar Road, Anytown, USA",
+        mobile_number: "555-222-3333"
+    },
+    {
+        id: 5,
+        name: "David Wilson",
+        birth_date: "1995-05-21",
+        gender: "Male",
+        medical_description: "Sprained ankle",
+        address: "1213 Maple Drive, Someville, USA",
+        mobile_number: "555-444-5555"
+    }
 ];

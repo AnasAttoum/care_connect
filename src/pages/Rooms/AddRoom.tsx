@@ -45,8 +45,8 @@ export default function AddRoom() {
         try {
             await validateRoom.validate(data, { abortEarly: false })
             const formData = new FormData()
-            formData.append('name', data.room_number.toString())
-            formData.append('phone_number', data.status)
+            formData.append('room_number', data.room_number.toString())
+            formData.append('status', data.status)
             formData.append('department_id', data.department_id.toString())
             formData.append('type', data.type)
             formData.append('beds_number', data.beds_number.toString())
