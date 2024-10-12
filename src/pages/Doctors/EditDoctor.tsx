@@ -67,7 +67,7 @@ export default function EditDoctor() {
 
     }
 
-    const handleAdd = async () => {
+    const handleEdit = async () => {
         setError({
             name: '',
             image: '',
@@ -105,7 +105,7 @@ export default function EditDoctor() {
 
             <div className="w-screen sm:w-2/3 bg-white rounded-none sm:rounded-2xl p-5" style={{ boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
 
-                <Title title="Add Doctor" />
+                <Title title="Edit Doctor" />
 
 
                 <div className="flex flex-col justify-center items-center gap-5">
@@ -132,7 +132,7 @@ export default function EditDoctor() {
 
 
 
-                <Btn click={handleAdd} title="Add" />
+                <Btn click={handleEdit} title="Edit" />
 
             </div>
 
