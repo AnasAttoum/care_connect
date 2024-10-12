@@ -2,6 +2,7 @@ export const links = [
     { name: 'Departments', url: '/' },
     { name: 'Rooms', url: '/rooms' },
     { name: 'Doctors', url: '/doctors' },
+    { name: 'Services', url: '/services' },
 ]
 
 export const departments = [
@@ -227,5 +228,80 @@ export const doctors = [
         job_date: "2021-12-01",
         address: "1213 Maple Street",
         salary: 140000,
+    },
+];
+
+export const services = [
+    {
+        id: 1,
+        name: "Emergency Room",
+        description: "Provides immediate medical care for urgent and life-threatening conditions.",
+        department_id: 3
+    },
+    {
+        id: 2,
+        name: "Cardiology",
+        description: "Specializes in the diagnosis and treatment of heart and blood vessel diseases.",
+        department_id: 3
+    },
+    {
+        id: 3,
+        name: "Oncology",
+        description: "Focuses on the prevention, diagnosis, and treatment of cancer.",
+        department_id: 3
+    },
+    {
+        id: 4,
+        name: "Neurology",
+        description: "Deals with disorders of the nervous system, including the brain, spinal cord, and nerves.",
+        department_id: 3
+    },
+    {
+        id: 5,
+        name: "Orthopedics",
+        description: "Specializes in the musculoskeletal system, including bones, joints, and muscles.",
+        department_id: 3
+    },
+    {
+        id: 6,
+        name: "Pediatrics",
+        description: "Provides medical care for children and adolescents.",
+        department_id: 3
+    },
+    {
+        id: 7,
+        name: "Obstetrics and Gynecology",
+        description: "Specializes in women's health, including pregnancy, childbirth, and gynecological conditions.",
+        department_id: 3
+    },
+    {
+        id: 8,
+        name: "Psychiatry",
+        description: "Deals with mental health disorders and provides psychological care.",
+        department_id: 3
+    },
+    {
+        id: 9,
+        name: "Surgery",
+        description: "Performs surgical procedures to diagnose and treat various medical conditions.",
+        department_id: 3
+    },
+    {
+        id: 10,
+        name: "Radiology",
+        description: "Uses imaging techniques, such as X-rays, CT scans, and MRI, to diagnose and treat medical conditions.",
+        department_id: 3
+    },
+    {
+        id: 11,
+        name: "Laboratory",
+        description: "Performs medical tests and analyzes samples to assist in diagnosis and treatment.",
+        department_id: 3
+    },
+    {
+        id: 12,
+        name: "Pharmacy",
+        description: "Dispenses medications and provides medication counseling.",
+        department_id: 3
     },
 ];

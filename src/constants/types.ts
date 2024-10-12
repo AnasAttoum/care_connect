@@ -19,3 +19,10 @@ export interface doctor {
     address: string,
     salary: number,
 }
+
+export interface service {
+    id: number,
+    name: string,
+    description: string,
+    department_id: number,
+}
