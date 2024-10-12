@@ -4,6 +4,7 @@ export const links = [
     { name: 'Doctors', url: '/doctors' },
     { name: 'Services', url: '/services' },
     { name: 'Patients', url: '/patients' },
+    { name: 'Surgeries', url: '/surgeries' },
 ]
 
 export const departments = [
@@ -354,3 +355,96 @@ export const patients = [
         mobile_number: "555-444-5555"
     }
 ];
+
+export const surgeries = [
+    {
+      id: 1,
+      operation_name: "Appendectomy",
+      patient_id: 101,
+      doctor_id: 201,
+      room_number: 10,
+      duration: "2 hours",
+      schedule_date: "2023-10-27",
+    },
+    {
+      id: 2,
+      operation_name: "Knee Replacement",
+      patient_id: 102,
+      doctor_id: 202,
+      room_number: 12,
+      duration: "3 hours",
+      schedule_date: "2023-10-28",
+    },
+    {
+      id: 3,
+      operation_name: "Tonsillectomy",
+      patient_id: 103,
+      doctor_id: 203,
+      room_number: 14,
+      duration: "1 hour",
+      schedule_date: "2023-10-29",
+    },
+    {
+      id: 4,
+      operation_name: "Hysterectomy",
+      patient_id: 104,
+      doctor_id: 204,
+      room_number: 16,
+      duration: "2.5 hours",
+      schedule_date: "2023-10-30",
+    },
+    {
+      id: 5,
+      operation_name: "Cataract Surgery",
+      patient_id: 105,
+      doctor_id: 205,
+      room_number: 18,
+      duration: "1 hour",
+      schedule_date: "2023-10-31",
+    },
+    {
+      id: 6,
+      operation_name: "Cholecystectomy",
+      patient_id: 106,
+      doctor_id: 206,
+      room_number: 20,
+      duration: "2 hours",
+      schedule_date: "2023-11-01",
+    },
+    {
+      id: 7,
+      operation_name: "Hernia Repair",
+      patient_id: 107,
+      doctor_id: 207,
+      room_number: 22,
+      duration: "1.5 hours",
+      schedule_date: "2023-11-02",
+    },
+    {
+      id: 8,
+      operation_name: "Heart Bypass Surgery",
+      patient_id: 108,
+      doctor_id: 208,
+      room_number: 24,
+      duration: "4 hours",
+      schedule_date: "2023-11-03",
+    },
+    {
+      id: 9,
+      operation_name: "Colon Resection",
+      patient_id: 109,
+      doctor_id: 209,
+      room_number: 26,
+      duration: "3 hours",
+      schedule_date: "2023-11-04",
+    },
+    {
+      id: 10,
+      operation_name: "Spinal Fusion",
+      patient_id: 110,
+      doctor_id: 210,
+      room_number: 28,
+      duration: "5 hours",
+      schedule_date: "2023-11-05",
+    },
+  ];

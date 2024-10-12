@@ -26,6 +26,10 @@ const LazyPatients = lazy(() => import('./pages/Patients/Patients'))
 const LazyAddPatient = lazy(() => import('./pages/Patients/AddPatient'))
 const LazyEditPatient = lazy(() => import('./pages/Patients/EditPatient'))
 
+const LazySurgeries = lazy(() => import('./pages/Surgeries/Surgeries'))
+const LazyAddSurgery = lazy(() => import('./pages/Surgeries/AddSurgery'))
+const LazyEditSurgery = lazy(() => import('./pages/Surgeries/EditSurgery'))
+
 function App() {
 
   return (
@@ -55,6 +59,10 @@ function App() {
           <Route path='patients' element={<Suspense fallback={<Loading />}><LazyPatients /></Suspense>} />
           <Route path='patients/add' element={<Suspense fallback={<Loading />}><LazyAddPatient /></Suspense>} />
           <Route path='patients/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditPatient /></Suspense>} />
+
+          <Route path='surgeries' element={<Suspense fallback={<Loading />}><LazySurgeries /></Suspense>} />
+          <Route path='surgeries/add' element={<Suspense fallback={<Loading />}><LazyAddSurgery /></Suspense>} />
+          <Route path='surgeries/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditSurgery /></Suspense>} />
 
         </Route>
       </Routes>
