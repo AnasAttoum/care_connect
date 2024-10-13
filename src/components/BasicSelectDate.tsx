@@ -16,7 +16,6 @@ export default function BasicSelectDate({ label, val, name, setVal,error }: { la
             },
         },
     });
-console.log(val)
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', '& > :not(style)': { m: 0 },marginBlock: '20px' }}>
             <ThemeProvider theme={theme}>

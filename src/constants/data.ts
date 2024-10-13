@@ -186,6 +186,8 @@ export const doctors = [
         job_date: "2022-01-15",
         address: "123 Main Street",
         salary: 150000,
+        days:['Sunday','Monday'],
+        fromTo:[new Date().toString(),new Date().toString()]
     },
     {
         id: 2,
@@ -197,6 +199,8 @@ export const doctors = [
         job_date: "2021-08-20",
         address: "456 Oak Avenue",
         salary: 120000,
+        days:['Sunday','Monday'],
+        fromTo:[new Date().toString(),new Date().toString()]
     },
     {
         id: 3,
@@ -208,6 +212,8 @@ export const doctors = [
         job_date: "2023-03-01",
         address: "789 Pine Street",
         salary: 180000,
+        days:['Sunday','Monday'],
+        fromTo:[new Date().toString(),new Date().toString()]
     },
     {
         id: 4,
@@ -219,6 +225,8 @@ export const doctors = [
         job_date: "2022-05-10",
         address: "1011 Elm Street",
         salary: 160000,
+        days:['Sunday','Monday'],
+        fromTo:[new Date().toString(),new Date().toString()]
     },
     {
         id: 5,
@@ -230,6 +238,8 @@ export const doctors = [
         job_date: "2021-12-01",
         address: "1213 Maple Street",
         salary: 140000,
+        days:['Sunday','Monday'],
+        fromTo:[new Date().toString(),new Date().toString()]
     },
 ];
 
