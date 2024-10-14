@@ -36,7 +36,6 @@ export default function FullScreenDialog({ open, setOpen, selectedRoomID }: {
 }) {
 
     const [patientsInThisRoom, setPatientsInThisRoom] = React.useState<number[]>([])
-    console.log("🚀 ~ patientsInThisRoom:", patientsInThisRoom)
 
     const handleClose = () => {
         setOpen(false);
@@ -92,7 +91,7 @@ export default function FullScreenDialog({ open, setOpen, selectedRoomID }: {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                value={patientsInThisRoom[index]}
+                                                value={patientsInThisRoom[index]?patientsInThisRoom[index]:0}
                                                 label={`Bed number ${index + 1}`}
                                                 onChange={(e) => { setPatientsInThisRoom(
                                                     prev=> (prev.map((el,i)=>{
