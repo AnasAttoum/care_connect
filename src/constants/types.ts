@@ -35,6 +35,9 @@ export interface doctor {
 export interface service {
     id: number,
     name: string,
-    description: string,
-    department_id: number,
+    description: string | null,
+    department: {
+        id: number,
+        name: string
+    }
 }

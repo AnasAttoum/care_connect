@@ -283,77 +283,95 @@ export const doctors = [
 
 export const services = [
     {
-        id: 1,
-        name: "Emergency Room",
-        description: "Provides immediate medical care for urgent and life-threatening conditions.",
-        department_id: 3
+        "id": 1,
+        "name": "Brenda Steuber",
+        "description": null,
+        "department": {
+            "id": 1,
+            "name": "Casimer Zieme",
+        }
     },
     {
-        id: 2,
-        name: "Cardiology",
-        description: "Specializes in the diagnosis and treatment of heart and blood vessel diseases.",
-        department_id: 3
+        "id": 2,
+        "name": "Prof. Margarett Nader",
+        "description": "Provides immediate medical care for urgent and life-threatening conditions.",
+        "department": {
+            "id": 2,
+            "name": "Gillian Moen",
+        }
     },
     {
-        id: 3,
-        name: "Oncology",
-        description: "Focuses on the prevention, diagnosis, and treatment of cancer.",
-        department_id: 3
+        "id": 3,
+        "name": "Julia Funk",
+        "description": "Provides immediate medical care for urgent and life-threatening conditions.",
+        "department": {
+            "id": 3,
+            "name": "Wyatt Shanahan",
+        }
     },
     {
-        id: 4,
-        name: "Neurology",
-        description: "Deals with disorders of the nervous system, including the brain, spinal cord, and nerves.",
-        department_id: 3
+        "id": 4,
+        "name": "Miss Abbigail Wiza IV",
+        "description": "Provides immediate medical care for urgent and life-threatening conditions.",
+        "department": {
+            "id": 4,
+            "name": "Dr. Alvis Muller",
+        }
     },
     {
-        id: 5,
-        name: "Orthopedics",
-        description: "Specializes in the musculoskeletal system, including bones, joints, and muscles.",
-        department_id: 3
+        "id": 5,
+        "name": "Marge Nolan",
+        "description": "Provides immediate medical care for urgent and life-threatening conditions.",
+        "department": {
+            "id": 5,
+            "name": "Mr. Kamron Cremin",
+        }
     },
     {
-        id: 6,
-        name: "Pediatrics",
-        description: "Provides medical care for children and adolescents.",
-        department_id: 3
+        "id": 6,
+        "name": "Marquise Moore",
+        "description": "Provides immediate medical care for urgent and life-threatening conditions.",
+        "department": {
+            "id": 6,
+            "name": "Prof. Geoffrey Hamill Jr.",
+        }
     },
     {
-        id: 7,
-        name: "Obstetrics and Gynecology",
-        description: "Specializes in women's health, including pregnancy, childbirth, and gynecological conditions.",
-        department_id: 3
+        "id": 7,
+        "name": "Mr. Jaden Hegmann",
+        "description": null,
+        "department": {
+            "id": 7,
+            "name": "Antonia Schinner",
+        }
     },
     {
-        id: 8,
-        name: "Psychiatry",
-        description: "Deals with mental health disorders and provides psychological care.",
-        department_id: 3
+        "id": 8,
+        "name": "Prof. Immanuel Harber",
+        "description": null,
+        "department": {
+            "id": 8,
+            "name": "Derick Mayert",
+        }
     },
     {
-        id: 9,
-        name: "Surgery",
-        description: "Performs surgical procedures to diagnose and treat various medical conditions.",
-        department_id: 3
+        "id": 9,
+        "name": "Jaquan Satterfield",
+        "description": null,
+        "department": {
+            "id": 9,
+            "name": "Jeffrey Bogisich",
+        }
     },
     {
-        id: 10,
-        name: "Radiology",
-        description: "Uses imaging techniques, such as X-rays, CT scans, and MRI, to diagnose and treat medical conditions.",
-        department_id: 3
-    },
-    {
-        id: 11,
-        name: "Laboratory",
-        description: "Performs medical tests and analyzes samples to assist in diagnosis and treatment.",
-        department_id: 3
-    },
-    {
-        id: 12,
-        name: "Pharmacy",
-        description: "Dispenses medications and provides medication counseling.",
-        department_id: 3
-    },
+        "id": 10,
+        "name": "Yvonne Kuhic",
+        "description": null,
+        "department": {
+            "id": 1,
+            "name": "Dr. Kiarra Kerluke",
+        }
+    }
 ];
 
 export const patients = [

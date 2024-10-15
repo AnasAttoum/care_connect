@@ -6,8 +6,16 @@ import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
 import { departments } from "../../constants/data";
 import { department } from "../../constants/types";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../lib/store";
+import { useNavigate } from "react-router-dom";
+import { postService } from "../../lib/slices/serviceSlice";
 
 export default function AddService() {
+
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingPost } = useSelector((state: RootState) => state.service)
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         name: '',
@@ -43,7 +51,11 @@ export default function AddService() {
             formData.append('description', data.description)
             formData.append('department_id', data.department_id.toString())
 
-            console.log(formData)
+            dispatch(postService(formData)).unwrap().then(() => {
+                navigate('/')
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+            })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
@@ -65,7 +77,11 @@ export default function AddService() {
                 <BasicSelect val={data.department_id} setVal={setData} error={error.department_id} name="department_id" label="Department" data={allDepartments} />
 
                 <Btn click={handleAdd} title="Add" />
-
+                {loadingPost === 'pending' &&
+                    <div className="flex justify-center my-5">
+                        <div className="loader"></div>
+                    </div>
+                }
             </div>
 
         </div>

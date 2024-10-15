@@ -52,7 +52,7 @@ export default function EditRoom() {
                     setData({
                         room_number: found.room_number,
                         status: found.status,
-                        department_id: 5,
+                        department_id: found.department.id,
                         type: found.type,
                         beds_number: found.beds_number
                     })
