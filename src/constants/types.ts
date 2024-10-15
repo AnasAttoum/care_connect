@@ -1,10 +1,10 @@
 export interface department {
     id: number,
     name: string,
-    phone_number: string,
-    total_rooms: number,
-    available_rooms: number,
-    total_doctors: number,
+    phone_number: number,
+    room_count: number,
+    empty_room: number,
+    doctor_count: number,
     description: string
 }
 

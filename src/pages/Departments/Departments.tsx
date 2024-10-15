@@ -2,12 +2,20 @@ import { useInView } from "react-intersection-observer";
 import DepartmentCard from "../../components/Cards/DepartmentCard";
 import Title from "../../components/Title";
 import { departments } from "../../constants/data";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FloatingButton from "../../components/FloatingButton";
+import { useDispatch, useSelector } from "react-redux";
+import { getDepartments } from "../../lib/slices/departmentSlice";
+import { AppDispatch, RootState } from "../../lib/store";
+import Loading from "../Loading";
+import { department } from "../../constants/types";
 
 export default function Departments() {
 
     const { ref, inView, entry } = useInView()
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading } = useSelector((state: RootState) => state.department)
+    const [totalDepartments,setTotalDepartments]=useState<department[]>([])
 
     useEffect(() => {
         if (inView)
@@ -16,19 +24,35 @@ export default function Departments() {
             })
     }, [inView, entry])
 
+
+    useEffect(() => {
+        dispatch(getDepartments()).unwrap().then(result => {
+            console.log("🚀 ~ useEffect ~ result:", result)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+            setTotalDepartments(departments)
+        })
+    }, [dispatch])
+
     return (
         <>
-            <div className="px-5">
-                <Title title="Our Departments" />
+            {loading === 'pending' ?
+                <Loading />
+                :
+                <>
+                    <div className="px-5">
+                        <Title title="Our Departments" />
 
-                <div className="flex flex-wrap justify-center gap-x-4 gap-y-5" ref={ref}>
-                    {departments.map((department, index) => {
-                        return <DepartmentCard key={index} department={department} />
-                    })}
-                </div>
-            </div>
+                        <div className="flex flex-wrap justify-center gap-x-4 gap-y-5" ref={ref}>
+                            {totalDepartments.map((department, index) => {
+                                return <DepartmentCard key={index} department={department} />
+                            })}
+                        </div>
+                    </div>
 
-            <FloatingButton url='/departments/add' tooltip='Add Department' />
+                    <FloatingButton url='/departments/add' tooltip='Add Department' />
+                </>
+            }
         </>
     )
 }

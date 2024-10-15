@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteDialog from '../DeleteDialog';
 
 
-export default function DepartmentCard({ department: { id, name, phone_number, total_rooms, available_rooms, total_doctors, description } }: { department: department }) {
+export default function DepartmentCard({ department: { id, name, phone_number, room_count, empty_room, doctor_count, description } }: { department: department }) {
 
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -66,15 +66,15 @@ export default function DepartmentCard({ department: { id, name, phone_number, t
                 <div className="flex justify-between">
                     <div className="flex flex-col">
                         <div className="text-gray-400">Rooms</div>
-                        <div className="text-[--primary]">{total_rooms}</div>
+                        <div className="text-[--primary]">{room_count}</div>
                     </div>
                     <div className="flex flex-col">
                         <div className="text-gray-400">available Rooms</div>
-                        <div className="text-[--primary]">{available_rooms}</div>
+                        <div className="text-[--primary]">{empty_room}</div>
                     </div>
                     <div className="flex flex-col">
                         <div className="text-gray-400">Doctors</div>
-                        <div className="text-[--primary]">{total_doctors}</div>
+                        <div className="text-[--primary]">{doctor_count}</div>
                     </div>
                 </div>
 
