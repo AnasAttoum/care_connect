@@ -102,116 +102,116 @@ export const departments = [
 
 export const rooms = [
     {
-      "id": 2,
-      "room_number": 179,
-      "status": "occupied",
-      "type": "general",
-      "beds_number": 3,
-      "department": {
-        "id": 12,
-        "name": "Daron Leuschke",
-      }
+        "id": 2,
+        "room_number": 179,
+        "status": "occupied",
+        "type": "general",
+        "beds_number": 3,
+        "department": {
+            "id": 12,
+            "name": "Daron Leuschke",
+        }
     },
     {
-      "id": 3,
-      "room_number": 158,
-      "status": "vacant",
-      "type": "ICU",
-      "beds_number": 1,
-      "department": {
-        "id": 13,
-        "name": "Vada Stracke",
-      }
+        "id": 3,
+        "room_number": 158,
+        "status": "vacant",
+        "type": "ICU",
+        "beds_number": 1,
+        "department": {
+            "id": 13,
+            "name": "Vada Stracke",
+        }
     },
     {
-      "id": 4,
-      "room_number": 67,
-      "status": "vacant",
-      "type": "ICU",
-      "beds_number": 4,
-      "department": {
-        "id": 14,
-        "name": "Prof. Elsa Jacobi MD",
-      }
+        "id": 4,
+        "room_number": 67,
+        "status": "vacant",
+        "type": "ICU",
+        "beds_number": 4,
+        "department": {
+            "id": 14,
+            "name": "Prof. Elsa Jacobi MD",
+        }
     },
     {
-      "id": 5,
-      "room_number": 172,
-      "status": "vacant",
-      "type": "ICU",
-      "beds_number": 5,
-      "department": {
-        "id": 15,
-        "name": "Paige Mitchell",
-      }
+        "id": 5,
+        "room_number": 172,
+        "status": "vacant",
+        "type": "ICU",
+        "beds_number": 5,
+        "department": {
+            "id": 15,
+            "name": "Paige Mitchell",
+        }
     },
     {
-      "id": 6,
-      "room_number": 134,
-      "status": "Under Maintenance",
-      "type": "surgical",
-      "beds_number": 3,
-      "department": {
-        "id": 16,
-        "name": "Rosina Runolfsdottir",
-      }
+        "id": 6,
+        "room_number": 134,
+        "status": "Under Maintenance",
+        "type": "surgical",
+        "beds_number": 3,
+        "department": {
+            "id": 16,
+            "name": "Rosina Runolfsdottir",
+        }
     },
     {
-      "id": 7,
-      "room_number": 52,
-      "status": "Under Maintenance",
-      "type": "surgical",
-      "beds_number": 7,
-      "department": {
-        "id": 17,
-        "name": "Cora Schmitt",
-      }
+        "id": 7,
+        "room_number": 52,
+        "status": "Under Maintenance",
+        "type": "surgical",
+        "beds_number": 7,
+        "department": {
+            "id": 17,
+            "name": "Cora Schmitt",
+        }
     },
     {
-      "id": 8,
-      "room_number": 122,
-      "status": "vacant",
-      "type": "general",
-      "beds_number": 5,
-      "department": {
-        "id": 18,
-        "name": "Laurie Brekke",
-      }
+        "id": 8,
+        "room_number": 122,
+        "status": "vacant",
+        "type": "general",
+        "beds_number": 5,
+        "department": {
+            "id": 18,
+            "name": "Laurie Brekke",
+        }
     },
     {
-      "id": 9,
-      "room_number": 187,
-      "status": "Under Maintenance",
-      "type": "general",
-      "beds_number": 1,
-      "department": {
-        "id": 19,
-        "name": "Price King",
-      }
+        "id": 9,
+        "room_number": 187,
+        "status": "Under Maintenance",
+        "type": "general",
+        "beds_number": 1,
+        "department": {
+            "id": 19,
+            "name": "Price King",
+        }
     },
     {
-      "id": 10,
-      "room_number": 36,
-      "status": "vacant",
-      "type": "general",
-      "beds_number": 5,
-      "department": {
-        "id": 20,
-        "name": "Prof. Ted Price IV",
-      }
+        "id": 10,
+        "room_number": 36,
+        "status": "vacant",
+        "type": "general",
+        "beds_number": 5,
+        "department": {
+            "id": 20,
+            "name": "Prof. Ted Price IV",
+        }
     },
     {
-      "id": 11,
-      "room_number": 64,
-      "status": "occupied",
-      "type": "general",
-      "beds_number": 5,
-      "department": {
-        "id": 1,
-        "name": "Lonie Ritchie",
-      }
+        "id": 11,
+        "room_number": 64,
+        "status": "occupied",
+        "type": "general",
+        "beds_number": 5,
+        "department": {
+            "id": 1,
+            "name": "Lonie Ritchie",
+        }
     }
-  ];
+];
 
 export const doctors = [
     {

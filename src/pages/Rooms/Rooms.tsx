@@ -72,7 +72,6 @@ export default function Rooms() {
         },
         { field: 'department_name', headerName: 'Department', width: 180,
             renderCell: (params) => {
-                console.log(params)
                 return (
                     <div>{params.row.department.name}</div>
                 );
