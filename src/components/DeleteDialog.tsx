@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DeleteDialog({ open, handleClose, handleDelete }: { open: boolean, handleClose: () => void, handleDelete: () => void }) {
+function DeleteDialog({ open, handleClose, handleDelete, loading }: { open: boolean, handleClose: () => void, handleDelete: () => void, loading: string }) {
 
     return (
         <React.Fragment>
@@ -36,10 +36,17 @@ export default function DeleteDialog({ open, handleClose, handleDelete }: { open
                     </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} sx={{color:'gray'}}>Disagree</Button>
-                    <Button onClick={handleDelete} sx={{color:'var(--primary)'}}>Agree</Button>
+                    <Button onClick={handleClose} sx={{ color: 'gray' }}>Disagree</Button>
+                    <Button onClick={handleDelete} sx={{ color: 'var(--primary)' }}>Agree</Button>
+                    {loading === 'pending' &&
+                        <div className='flex justify-center'>
+                            <div className='miniLoader'></div>
+                        </div>
+                        }
                 </DialogActions>
             </Dialog>
         </React.Fragment>
     )
 }
+
+export default React.memo(DeleteDialog)

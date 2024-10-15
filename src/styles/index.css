@@ -33,6 +33,23 @@ body {
         db8-2 1.5s infinite;
 }
 
+.miniLoader {
+    width: 40px;
+    height: 40px;
+    --c: linear-gradient(var(--primary) 0 0);
+    --m: radial-gradient(farthest-side, var(--primary) 92%, #0000);
+    background:
+        var(--m) center /24px 24px,
+        var(--c) left 50% top -40px/16px 32px,
+        var(--c) left 50% bottom -40px/16px 32px,
+        var(--c) top 50% left -40px/32px 16px,
+        var(--c) top 50% right -40px/32px 16px;
+    background-repeat: no-repeat;
+    animation:
+        db8-1 1.5s infinite,
+        db8-2 1.5s infinite;
+}
+
 @keyframes db8-1 {
 
     30%,

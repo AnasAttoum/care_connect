@@ -81,7 +81,7 @@ export default function Surgeries() {
             </div>
 
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading='' />
 
             <FloatingButton url='/surgeries/add' tooltip='Add Surgery' />
         </>

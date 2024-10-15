@@ -81,7 +81,7 @@ export default function Patients() {
             </div>
 
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading='' />
 
             <FloatingButton url='/patients/add' tooltip='Add Patient' />
         </>

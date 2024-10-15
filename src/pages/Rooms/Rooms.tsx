@@ -150,7 +150,7 @@ export default function Rooms() {
 
                         <FullScreenDialog open={open} setOpen={setOpen} selectedRoomID={selectedRoomID} />
 
-                        <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
+                        <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading='' />
 
                         <FloatingButton url='/rooms/add' tooltip='Add Room' />
                     </>

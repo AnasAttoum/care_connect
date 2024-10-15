@@ -70,7 +70,7 @@ export default function ServiceCard({ service: { id, name, description, departme
 
             </div>
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading='' />
         </>
     )
 }

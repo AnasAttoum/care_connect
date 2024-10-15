@@ -78,7 +78,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
 
             </div>
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading=''/>
         </>
     )
 }

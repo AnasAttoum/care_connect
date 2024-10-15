@@ -3,8 +3,16 @@ import Title from "../../components/Title";
 import BasicTextField from "../../components/BasicTextField";
 import { validateDepartment } from "../../validations/validation";
 import Btn from "../../components/Btn";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../lib/store";
+import { postDepartment } from "../../lib/slices/departmentSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function AddDepartment() {
+
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingPost } = useSelector((state: RootState) => state.department)
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         name: '',
@@ -34,7 +42,12 @@ export default function AddDepartment() {
             formData.append('phone_number', data.phone_number)
             formData.append('description', data.description)
 
-            console.log(formData)
+            dispatch(postDepartment(formData)).unwrap().then(() => {
+                navigate('/')
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+            })
+
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
@@ -56,6 +69,11 @@ export default function AddDepartment() {
                 <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
 
                 <Btn click={handleAdd} title="Add" />
+                {loadingPost === 'pending' &&
+                    <div className="flex justify-center my-5">
+                        <div className="loader"></div>
+                    </div>
+                }
 
             </div>
 

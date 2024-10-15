@@ -6,11 +6,16 @@ import MenuItem from '@mui/material/MenuItem';
 import { department } from "../../constants/types";
 import { useNavigate } from 'react-router-dom';
 import DeleteDialog from '../DeleteDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../lib/store';
+import { deleteDepartment } from '../../lib/slices/departmentSlice';
 
 
 export default function DepartmentCard({ department: { id, name, phone_number, room_count, empty_room, doctor_count, description } }: { department: department }) {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingDelete } = useSelector((state: RootState) => state.department)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,11 +26,17 @@ export default function DepartmentCard({ department: { id, name, phone_number, r
     };
 
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    const handleOpenDeleteModal = () => {setOpenDeleteModal(true);handleClose()}
+    const handleOpenDeleteModal = () => { setOpenDeleteModal(true); handleClose() }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
-        console.log(id)
-        handleCloseDeleteModal()
+
+        dispatch(deleteDepartment(id.toString())).unwrap().then(() => {
+            handleCloseDeleteModal()
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+            handleCloseDeleteModal()
+        })
+
     }
 
     return (
@@ -55,7 +66,7 @@ export default function DepartmentCard({ department: { id, name, phone_number, r
                                     'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <MenuItem onClick={()=>{handleClose();setTimeout(()=>{navigate(`/departments/edit/${id}`)},1)}}>Edit</MenuItem>
+                                <MenuItem onClick={() => { handleClose(); setTimeout(() => { navigate(`/departments/edit/${id}`) }, 1) }}>Edit</MenuItem>
                                 <MenuItem onClick={handleOpenDeleteModal}><span className='text-red-500'>Delete</span></MenuItem>
                             </Menu>
                         </div>
@@ -85,7 +96,7 @@ export default function DepartmentCard({ department: { id, name, phone_number, r
 
             </div>
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete}/>
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete}/>
         </>
     )
 }
