@@ -52,7 +52,7 @@ export default function EditSurgery() {
                 return { id: doctor.id, name: doctor.name }
             }),
             rooms: rooms.map((room) => {
-                return { id: room.id, name: room.room_number }
+                return { id: room.id, name: room.room_number.toString() }
             })
         }))
     }, [])
