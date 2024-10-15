@@ -13,7 +13,7 @@ import FullScreenDialog from '../../components/FullScreenDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
 import { room } from '../../constants/types';
-import { getRooms } from '../../lib/slices/roomSlice';
+import { deleteRoom, getRooms } from '../../lib/slices/roomSlice';
 import Loading from '../Loading';
 
 
@@ -26,7 +26,7 @@ export default function Rooms() {
     const id = useRef<number>(0)
 
     const dispatch = useDispatch<AppDispatch>()
-    const { loading } = useSelector((state: RootState) => state.room)
+    const { loading,loadingDelete } = useSelector((state: RootState) => state.room)
     const [totalRooms, setTotalRooms] = useState<room[]>([])
 
     useEffect(() => {
@@ -50,8 +50,12 @@ export default function Rooms() {
     const handleOpenDeleteModal = (params: any) => { setOpenDeleteModal(true); id.current = params.id }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
-        console.log(id.current)
-        handleCloseDeleteModal()
+        dispatch(deleteRoom(id.current.toString())).unwrap().then(() => {
+            handleCloseDeleteModal()
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+            handleCloseDeleteModal()
+        })
     }
     const columns: GridColDef[] = [
         { field: 'room_number', headerName: 'Room Number', width: 180 },
@@ -150,7 +154,7 @@ export default function Rooms() {
 
                         <FullScreenDialog open={open} setOpen={setOpen} selectedRoomID={selectedRoomID} />
 
-                        <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading='' />
+                        <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete} />
 
                         <FloatingButton url='/rooms/add' tooltip='Add Room' />
                     </>

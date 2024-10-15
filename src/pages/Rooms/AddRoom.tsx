@@ -6,8 +6,16 @@ import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
 import { departments } from "../../constants/data";
 import { department } from "../../constants/types";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../lib/store";
+import { useNavigate } from "react-router-dom";
+import { postRoom } from "../../lib/slices/roomSlice";
 
 export default function AddRoom() {
+
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingPost } = useSelector((state: RootState) => state.room)
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         room_number: 0,
@@ -51,7 +59,11 @@ export default function AddRoom() {
             formData.append('type', data.type)
             formData.append('beds_number', data.beds_number.toString())
 
-            console.log(formData)
+            dispatch(postRoom(formData)).unwrap().then(() => {
+                navigate('/')
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+            })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
@@ -75,6 +87,11 @@ export default function AddRoom() {
                 <BasicTextField val={data.beds_number} handleChange={handleChange} error={error.beds_number} name="beds_number" label="Beds Number" />
 
                 <Btn click={handleAdd} title="Add" />
+                {loadingPost === 'pending' &&
+                    <div className="flex justify-center my-5">
+                        <div className="loader"></div>
+                    </div>
+                }
 
             </div>
 
