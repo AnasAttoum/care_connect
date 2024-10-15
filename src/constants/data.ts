@@ -102,78 +102,116 @@ export const departments = [
 
 export const rooms = [
     {
-        id: 1,
-        room_number: "101",
-        status: "occupied",
-        department_name: "Cardiology",
-        type: "surgical",
-        beds_number: 1,
+      "id": 2,
+      "room_number": 179,
+      "status": "occupied",
+      "type": "general",
+      "beds_number": 3,
+      "department": {
+        "id": 12,
+        "name": "Daron Leuschke",
+      }
     },
     {
-        id: 2,
-        room_number: "102",
-        status: "vacant",
-        department_name: "General Surgery",
-        type: "ICU",
-        beds_number: 2,
+      "id": 3,
+      "room_number": 158,
+      "status": "vacant",
+      "type": "ICU",
+      "beds_number": 1,
+      "department": {
+        "id": 13,
+        "name": "Vada Stracke",
+      }
     },
     {
-        id: 3,
-        room_number: "103",
-        status: "occupied",
-        department_name: "Pediatrics",
-        type: "surgical",
-        beds_number: 1,
+      "id": 4,
+      "room_number": 67,
+      "status": "vacant",
+      "type": "ICU",
+      "beds_number": 4,
+      "department": {
+        "id": 14,
+        "name": "Prof. Elsa Jacobi MD",
+      }
     },
     {
-        id: 4,
-        room_number: "201",
-        status: "Under Maintenance",
-        department_name: "Emergency",
-        type: "ICU",
-        beds_number: 4,
+      "id": 5,
+      "room_number": 172,
+      "status": "vacant",
+      "type": "ICU",
+      "beds_number": 5,
+      "department": {
+        "id": 15,
+        "name": "Paige Mitchell",
+      }
     },
     {
-        id: 5,
-        room_number: "202",
-        status: "occupied",
-        department_name: "Obstetrics",
-        type: "surgical",
-        beds_number: 1,
+      "id": 6,
+      "room_number": 134,
+      "status": "Under Maintenance",
+      "type": "surgical",
+      "beds_number": 3,
+      "department": {
+        "id": 16,
+        "name": "Rosina Runolfsdottir",
+      }
     },
     {
-        id: 6,
-        room_number: "203",
-        status: "vacant",
-        department_name: "Neurology",
-        type: "ICU",
-        beds_number: 2,
+      "id": 7,
+      "room_number": 52,
+      "status": "Under Maintenance",
+      "type": "surgical",
+      "beds_number": 7,
+      "department": {
+        "id": 17,
+        "name": "Cora Schmitt",
+      }
     },
     {
-        id: 7,
-        room_number: "301",
-        status: "occupied",
-        department_name: "Oncology",
-        type: "surgical",
-        beds_number: 1,
+      "id": 8,
+      "room_number": 122,
+      "status": "vacant",
+      "type": "general",
+      "beds_number": 5,
+      "department": {
+        "id": 18,
+        "name": "Laurie Brekke",
+      }
     },
     {
-        id: 8,
-        room_number: "302",
-        status: "vacant",
-        department_name: "Orthopedics",
-        type: "ICU",
-        beds_number: 2,
+      "id": 9,
+      "room_number": 187,
+      "status": "Under Maintenance",
+      "type": "general",
+      "beds_number": 1,
+      "department": {
+        "id": 19,
+        "name": "Price King",
+      }
     },
     {
-        id: 9,
-        room_number: "303",
-        status: "occupied",
-        department_name: "Psychiatry",
-        type: "surgical",
-        beds_number: 1,
+      "id": 10,
+      "room_number": 36,
+      "status": "vacant",
+      "type": "general",
+      "beds_number": 5,
+      "department": {
+        "id": 20,
+        "name": "Prof. Ted Price IV",
+      }
     },
-];
+    {
+      "id": 11,
+      "room_number": 64,
+      "status": "occupied",
+      "type": "general",
+      "beds_number": 5,
+      "department": {
+        "id": 1,
+        "name": "Lonie Ritchie",
+      }
+    }
+  ];
 
 export const doctors = [
     {

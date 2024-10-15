@@ -10,6 +10,11 @@ import DeleteDialog from '../../components/DeleteDialog';
 import { Link } from 'react-router-dom';
 import Btn from '../../components/Btn';
 import FullScreenDialog from '../../components/FullScreenDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../lib/store';
+import { room } from '../../constants/types';
+import { getRooms } from '../../lib/slices/roomSlice';
+import Loading from '../Loading';
 
 
 
@@ -20,10 +25,23 @@ export default function Rooms() {
     const { ref, inView, entry } = useInView()
     const id = useRef<number>(0)
 
+    const dispatch = useDispatch<AppDispatch>()
+    const { loading } = useSelector((state: RootState) => state.room)
+    const [totalRooms, setTotalRooms] = useState<room[]>([])
+
     useEffect(() => {
         if (entry)
             (entry.target as HTMLElement).style.animation = `animationBasic .7s .3s forwards`
     }, [inView, entry])
+
+    useEffect(() => {
+        dispatch(getRooms()).unwrap().then(result => {
+            console.log("🚀 ~ useEffect ~ result:", result)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+            setTotalRooms(rooms)
+        })
+    }, [dispatch])
 
 
 
@@ -52,7 +70,14 @@ export default function Rooms() {
                 );
             }
         },
-        { field: 'department_name', headerName: 'Department', width: 180 },
+        { field: 'department_name', headerName: 'Department', width: 180,
+            renderCell: (params) => {
+                console.log(params)
+                return (
+                    <div>{params.row.department.name}</div>
+                );
+            }
+         },
         { field: 'type', headerName: 'Type', width: 180, },
         { field: 'beds_number', headerName: 'Beds Number', width: 180, },
         {
@@ -60,7 +85,7 @@ export default function Rooms() {
             renderCell: (params) => {
                 return (
                     <div className='flex items-center gap-5 mt-3 w-full' style={{ height: '30px' }}>
-                        <Btn click={()=>{setSelectedRoomID(params.id as number);handleClickOpen()}} title='Show Patients' />
+                        <Btn click={() => { setSelectedRoomID(params.id as number); handleClickOpen() }} title='Show Patients' />
                     </div>
                 );
             }
@@ -95,35 +120,42 @@ export default function Rooms() {
 
     return (
         <>
-            <div className="px-5">
-                <Title title="Our Rooms" />
+            {
+                loading === 'pending' ?
+                    <Loading />
+                    :
+                    <>
+                        <div className="px-5">
+                            <Title title="Our Rooms" />
 
-                <div className='flex justify-center'>
+                            <div className='flex justify-center'>
 
-                    <Paper sx={{ width: 'fit-content', overflowX: 'scroll', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
+                                <Paper sx={{ width: 'fit-content', overflowX: 'scroll', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
 
-                        <div className='px-5 py-2' style={{ display: 'flex', flexDirection: 'column', opacity: '0' }} ref={ref}>
-                            <DataGrid
-                                rows={rooms}
-                                columns={columns}
-                                initialState={{ pagination: { paginationModel } }}
-                                pageSizeOptions={[5, 10]}
-                                // checkboxSelection
-                                sx={{ border: 0 }}
-                            />
+                                    <div className='px-5 py-2' style={{ display: 'flex', flexDirection: 'column', opacity: '0' }} ref={ref}>
+                                        <DataGrid
+                                            rows={totalRooms}
+                                            columns={columns}
+                                            initialState={{ pagination: { paginationModel } }}
+                                            pageSizeOptions={[5, 10]}
+                                            // checkboxSelection
+                                            sx={{ border: 0 }}
+                                        />
+                                    </div>
+
+                                </Paper>
+
+                            </div>
+
                         </div>
 
-                    </Paper>
+                        <FullScreenDialog open={open} setOpen={setOpen} selectedRoomID={selectedRoomID} />
 
-                </div>
+                        <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
 
-            </div>
-
-            <FullScreenDialog open={open} setOpen={setOpen} selectedRoomID={selectedRoomID}/>
-
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} />
-
-            <FloatingButton url='/rooms/add' tooltip='Add Room' />
+                        <FloatingButton url='/rooms/add' tooltip='Add Room' />
+                    </>
+            }
         </>
     )
 }

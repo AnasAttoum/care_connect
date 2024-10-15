@@ -8,6 +8,18 @@ export interface department {
     description: string
 }
 
+export interface room {
+    id: number,
+    room_number: number,
+    status: string,
+    type: string,
+    beds_number: number,
+    department: {
+        id: number,
+        name: string
+    }
+}
+
 export interface doctor {
     id: number,
     name: string,
