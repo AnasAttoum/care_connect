@@ -75,7 +75,7 @@ export default function EditService() {
 
             if (id)
                 dispatch(putService({ data: formData, id: id })).unwrap().then(() => {
-                    navigate('/')
+                    navigate('/services')
                 }).catch((error) => {
                     console.log("🚀 ~ dispatch ~ error:", error.message)
                 })

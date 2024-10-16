@@ -84,7 +84,7 @@ export default function EditRoom() {
 
             if (id)
                 dispatch(putRoom({ data: formData, id: id })).unwrap().then(() => {
-                    navigate('/')
+                    navigate('/rooms')
                 }).catch((error) => {
                     console.log("🚀 ~ dispatch ~ error:", error.message)
                 })

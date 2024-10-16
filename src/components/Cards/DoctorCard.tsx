@@ -3,10 +3,15 @@ import { doctor } from "../../constants/types";
 import { MouseEvent, useState } from "react";
 import DeleteDialog from "../DeleteDialog";
 import { useNavigate } from "react-router-dom";
+import { deleteDoctor } from "../../lib/slices/doctorSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../lib/store";
 
-export default function DoctorCard({ doctor: { id, name, image, speciality, department_id, mobile_number, job_date, address, salary } }: { doctor: doctor }) {
+export default function DoctorCard({ doctor: { id, name, image, speciality, department, mobile_number, job_date, address, salary } }: { doctor: doctor }) {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingDelete } = useSelector((state: RootState) => state.doctor)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -20,8 +25,13 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
     const handleOpenDeleteModal = () => { setOpenDeleteModal(true); handleClose() }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
-        console.log(id)
-        handleCloseDeleteModal()
+        if(id)
+            dispatch(deleteDoctor(id.toString())).unwrap().then(() => {
+                handleCloseDeleteModal()
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+                handleCloseDeleteModal()
+            })
     }
 
     return (
@@ -64,7 +74,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
                     <div className="flex flex-col gap-5 w-1/2">
                         <div className="text-gray-400">Name: <div className="text-[--primary] font-bold">{name}</div></div>
                         <div className="text-gray-400">Speciality: <div className="text-[--primary] font-bold">{speciality}</div></div>
-                        <div className="text-gray-400">Department: <div className="text-[--primary] font-bold">{department_id}</div></div>
+                        <div className="text-gray-400">Department: <div className="text-[--primary] font-bold">{department.name}</div></div>
                     </div>
 
                     <div className="flex flex-col gap-5 w-1/2">
@@ -78,7 +88,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
 
             </div>
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading=''/>
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete}/>
         </>
     )
 }

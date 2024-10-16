@@ -21,15 +21,20 @@ export interface room {
 }
 
 export interface doctor {
-    id: number,
+    id?: number,
     name: string,
     image: string,
     speciality: string,
-    department_id: number,
     mobile_number: string,
     job_date: string,
     address: string,
     salary: number,
+    days: string[],
+    fromTo: string[],
+    department: {
+        id: number,
+        name: string
+    }
 }
 
 export interface service {

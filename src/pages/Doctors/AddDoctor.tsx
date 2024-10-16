@@ -13,6 +13,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import BasicSelectDate from "../../components/BasicSelectDate";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../lib/store";
+import { useNavigate } from "react-router-dom";
+import { postDoctor } from "../../lib/slices/doctorSlice";
 
 const theme = createTheme({
     palette: {
@@ -23,6 +27,10 @@ const theme = createTheme({
 });
 
 export default function AddDoctor() {
+
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingPost } = useSelector((state: RootState) => state.doctor)
+    const navigate = useNavigate()
 
     const [data, setData] = useState<{ name: string, image: string, speciality: string, department_id: string, mobile_number: string, job_date: string, address: string, salary: string, days: string[], fromTo: string[] }>({
         name: '',
@@ -99,7 +107,11 @@ export default function AddDoctor() {
             formData.append('days', data.days.join())
             formData.append('fromTo', data.fromTo.join())
 
-            console.log(formData)
+            dispatch(postDoctor(formData)).unwrap().then(() => {
+                navigate('/')
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+            })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
@@ -201,6 +213,11 @@ export default function AddDoctor() {
 
 
                 <Btn click={handleAdd} title="Add" />
+                {loadingPost === 'pending' &&
+                    <div className="flex justify-center my-5">
+                        <div className="loader"></div>
+                    </div>
+                }
 
             </div>
 

@@ -219,13 +219,16 @@ export const doctors = [
         image: '/images/Jillian Warner.jpg',
         name: "Dr. John Smith",
         speciality: "Cardiology",
-        department_id: 1,
-        mobile_number: "123-456-7890",
+        mobile_number: "0912345678",
         job_date: "2022-01-15",
         address: "123 Main Street",
         salary: 150000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()]
+        fromTo: [new Date().toString(), new Date().toString()],
+        department: {
+            id: 1,
+            name: "Lonie Ritchie",
+        }
     },
     {
         id: 2,
@@ -238,7 +241,11 @@ export const doctors = [
         address: "456 Oak Avenue",
         salary: 120000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()]
+        fromTo: [new Date().toString(), new Date().toString()],
+        department:{
+            id:1,
+            name:'Lonie Ritchie'
+        }
     },
     {
         id: 3,
@@ -251,7 +258,11 @@ export const doctors = [
         address: "789 Pine Street",
         salary: 180000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()]
+        fromTo: [new Date().toString(), new Date().toString()],
+        department:{
+            id:1,
+            name:'Lonie Ritchie'
+        }
     },
     {
         id: 4,
@@ -264,7 +275,11 @@ export const doctors = [
         address: "1011 Elm Street",
         salary: 160000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()]
+        fromTo: [new Date().toString(), new Date().toString()],
+        department:{
+            id:1,
+            name:'Lonie Ritchie'
+        }
     },
     {
         id: 5,
@@ -277,7 +292,11 @@ export const doctors = [
         address: "1213 Maple Street",
         salary: 140000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()]
+        fromTo: [new Date().toString(), new Date().toString()],
+        department:{
+            id:1,
+            name:'Lonie Ritchie'
+        }
     },
 ];
 

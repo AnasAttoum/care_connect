@@ -52,7 +52,7 @@ const initialState: { loading: string, loadingRoom: string, loadingPost: string,
 }
 
 export const roomSlice = createSlice({
-  name: 'department',
+  name: 'room',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
