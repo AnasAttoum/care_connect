@@ -46,3 +46,13 @@ export interface service {
         name: string
     }
 }
+
+export interface patient {
+    id: number,
+    name: string,
+    birth_date: string,
+    gender: string,
+    medical_description: string,
+    address: string,
+    mobile_number: string,
+}

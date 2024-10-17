@@ -5,13 +5,21 @@ import { validatePatient } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
 import BasicSelectDate from "../../components/BasicSelectDate";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../lib/store";
+import { useNavigate } from "react-router-dom";
+import { postPatient } from "../../lib/slices/patientSlice";
 
 export default function AddPatient() {
+
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingPost } = useSelector((state: RootState) => state.patient)
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         name: '',
         birth_date: new Date().toString(),
-        gender:'',
+        gender: '',
         medical_description: '',
         address: '',
         mobile_number: ''
@@ -19,7 +27,7 @@ export default function AddPatient() {
     const [error, setError] = useState({
         name: '',
         birth_date: '',
-        gender:'',
+        gender: '',
         medical_description: '',
         address: '',
         mobile_number: ''
@@ -34,7 +42,7 @@ export default function AddPatient() {
         setError({
             name: '',
             birth_date: '',
-            gender:'',
+            gender: '',
             medical_description: '',
             address: '',
             mobile_number: ''
@@ -49,7 +57,11 @@ export default function AddPatient() {
             formData.append('address', data.address)
             formData.append('mobile_number', data.mobile_number)
 
-            console.log(formData)
+            dispatch(postPatient(formData)).unwrap().then(() => {
+                navigate('/')
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+            })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
@@ -67,13 +79,18 @@ export default function AddPatient() {
                 <Title title="Add Patient" />
 
                 <BasicTextField val={data.name} handleChange={handleChange} error={error.name} name="name" label="Name" />
-                <BasicSelectDate val={data.birth_date} setVal={setData} error={error.birth_date} name='birth_date' label='Birth Date'/>
+                <BasicSelectDate val={data.birth_date} setVal={setData} error={error.birth_date} name='birth_date' label='Birth Date' />
                 <BasicSelect val={data.gender} setVal={setData} error={error.gender} name="gender" label="Gender" data={[{ id: 'male', name: 'Male' }, { id: 'female', name: 'Female' }]} />
                 <BasicTextField val={data.medical_description} handleChange={handleChange} error={error.medical_description} name="medical_description" label="Medical Description" />
                 <BasicTextField val={data.address} handleChange={handleChange} error={error.address} name="address" label="Address" />
                 <BasicTextField val={data.mobile_number} handleChange={handleChange} error={error.mobile_number} name="mobile_number" label="Mobile Number" />
 
                 <Btn click={handleAdd} title="Add" />
+                {loadingPost === 'pending' &&
+                    <div className="flex justify-center my-5">
+                        <div className="loader"></div>
+                    </div>
+                }
 
             </div>
 
