@@ -71,3 +71,12 @@ export const validateSurgery = Yup.object({
     duration: Yup.string().required('Invalid Duration'),
     schedule_date: Yup.string().required('Invalid Date'),
 })
+
+export const validateMedicalRecord = Yup.object({
+    doctor_id: Yup.string().required('Invalid Doctor'),
+    room_id: Yup.string().required('Invalid Room Number'),
+    blood_type: Yup.string().required('Invalid Blood Type'),
+    admission_date: Yup.string().required('Invalid Date'),
+    discharge_date: Yup.string().required('Invalid Date'),
+    details: Yup.string().required('Invalid Details'),
+})

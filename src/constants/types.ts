@@ -56,3 +56,37 @@ export interface patient {
     address: string,
     mobile_number: string,
 }
+
+export interface medicalRecord {
+    patient_id: {
+        id: number,
+        name: string,
+        birth_date: string,
+        gender: string,
+        medical_description: string,
+        address: string,
+        mobile_number: string
+    },
+    blood_type: string,
+    admission_date: string,
+    discharge_date: string,
+    medicines: string[],
+    details: string,
+    doctor_id: {
+        name: string,
+        speciality: string,
+        image: string,
+        mobile_number: string,
+        job_date: string,
+        address: string,
+        salary: string,
+        department: {
+            id: number,
+            name: string,
+        }
+    },
+    room_id: {
+        id: number,
+        room_number: number,
+    }
+}

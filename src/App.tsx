@@ -25,6 +25,9 @@ const LazyEditService = lazy(() => import('./pages/Services/EditService'))
 const LazyPatients = lazy(() => import('./pages/Patients/Patients'))
 const LazyAddPatient = lazy(() => import('./pages/Patients/AddPatient'))
 const LazyEditPatient = lazy(() => import('./pages/Patients/EditPatient'))
+const LazyMedicalRecords = lazy(() => import('./pages/Patients/MedicalRecords/MedicalRecords'))
+const LazyAddMedicalRecord = lazy(() => import('./pages/Patients/MedicalRecords/AddMedicalRecord'))
+const LazyEditMedicalRecord = lazy(() => import('./pages/Patients/MedicalRecords/EditMedicalRecord'))
 
 const LazySurgeries = lazy(() => import('./pages/Surgeries/Surgeries'))
 const LazyAddSurgery = lazy(() => import('./pages/Surgeries/AddSurgery'))
@@ -59,6 +62,9 @@ function App() {
           <Route path='patients' element={<Suspense fallback={<Loading />}><LazyPatients /></Suspense>} />
           <Route path='patients/add' element={<Suspense fallback={<Loading />}><LazyAddPatient /></Suspense>} />
           <Route path='patients/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditPatient /></Suspense>} />
+          <Route path='patients/:id' element={<Suspense fallback={<Loading />}><LazyMedicalRecords /></Suspense>} />
+          <Route path='patients/:patientId/add' element={<Suspense fallback={<Loading />}><LazyAddMedicalRecord /></Suspense>} />
+          <Route path='patients/:patientId/edit/:id' element={<Suspense fallback={<Loading />}><LazyEditMedicalRecord /></Suspense>} />
 
           <Route path='surgeries' element={<Suspense fallback={<Loading />}><LazySurgeries /></Suspense>} />
           <Route path='surgeries/add' element={<Suspense fallback={<Loading />}><LazyAddSurgery /></Suspense>} />
