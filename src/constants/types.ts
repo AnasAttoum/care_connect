@@ -57,6 +57,25 @@ export interface patient {
     mobile_number: string,
 }
 
+export interface surgery {
+    id: number,
+    operation_name: string,
+    patient_id: {
+        id: number,
+        name: string
+    },
+    doctor_id: {
+        id: number,
+        name: string
+    },
+    room_id: {
+        id: number,
+        room_number: number
+    },
+    duration: number,
+    schedule_date: string,
+}
+
 export interface medicalRecord {
     patient_id: {
         id: number,

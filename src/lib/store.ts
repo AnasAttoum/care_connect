@@ -6,6 +6,7 @@ import serviceSlice from './slices/serviceSlice'
 import doctorSlice from './slices/doctorSlice'
 import patientSlice from './slices/patientSlice'
 import medicalRecordsSlice from './slices/medicalRecords'
+import SurgeriesSlice from './slices/SurgeriesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     doctor: doctorSlice,
     patient: patientSlice,
     medicalRecord: medicalRecordsSlice,
+    surgery:SurgeriesSlice,
   },
 })
 

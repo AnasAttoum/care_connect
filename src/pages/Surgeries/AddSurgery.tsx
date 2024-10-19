@@ -6,8 +6,16 @@ import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
 import { doctors, patients, rooms } from "../../constants/data";
 import BasicSelectDate from "../../components/BasicSelectDate";
+import { AppDispatch, RootState } from "../../lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { postSurgery } from "../../lib/slices/SurgeriesSlice";
 
 export default function AddSurgery() {
+
+    const dispatch = useDispatch<AppDispatch>()
+    const { loadingPost } = useSelector((state: RootState) => state.surgery)
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         operation_name: '',
@@ -66,7 +74,11 @@ export default function AddSurgery() {
             formData.append('duration', data.duration)
             formData.append('schedule_date', data.schedule_date)
 
-            console.log(formData)
+            dispatch(postSurgery(formData)).unwrap().then(() => {
+                navigate('/')
+            }).catch((error) => {
+                console.log("🚀 ~ dispatch ~ error:", error.message)
+            })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
@@ -87,10 +99,15 @@ export default function AddSurgery() {
                 <BasicSelect val={data.patient_id} setVal={setData} error={error.patient_id} name="patient_id" label="Patient" data={resources.patients} />
                 <BasicSelect val={data.doctor_id} setVal={setData} error={error.doctor_id} name="doctor_id" label="Doctor" data={resources.doctors} />
                 <BasicSelect val={data.room_number} setVal={setData} error={error.room_number} name="room_number" label="Room" data={resources.rooms} />
-                <BasicTextField val={data.duration} handleChange={handleChange} error={error.duration} name="duration" label="Duration" />
+                <BasicTextField val={data.duration} handleChange={handleChange} error={error.duration} name="duration" label="Duration (Hours)" />
                 <BasicSelectDate val={data.schedule_date} setVal={setData} error={error.schedule_date} name='schedule_date' label='Schedule Date'/>
 
                 <Btn click={handleAdd} title="Add" />
+                {loadingPost === 'pending' &&
+                    <div className="flex justify-center my-5">
+                        <div className="loader"></div>
+                    </div>
+                }
 
             </div>
 
