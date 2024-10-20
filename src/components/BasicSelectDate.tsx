@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function BasicSelectDate({ label, val, name, setVal,error }: { label: string, val: string, setVal: any, name: string,error:string }) {
+export default function BasicSelectDate({ label, val, name, setVal, error }: { label: string, val: string, setVal: any, name: string, error: string }) {
     const theme = createTheme({
         palette: {
             primary: {
@@ -17,10 +17,11 @@ export default function BasicSelectDate({ label, val, name, setVal,error }: { la
         },
     });
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', '& > :not(style)': { m: 0 },marginBlock: '20px' }}>
+        <div className='my-5'>
             <ThemeProvider theme={theme}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DateField', 'DatePicker']} sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DateField', 'DatePicker']} sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', '& > :not(style)': { m: 0 }, marginBlock: '20px' }}>
                         <DatePicker
                             sx={{ width: '80%', color: 'var(--primary)' }}
                             label={label}
@@ -28,17 +29,18 @@ export default function BasicSelectDate({ label, val, name, setVal,error }: { la
                             defaultValue={dayjs(val)}
                             value={dayjs(val)}
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            onChange={(e) => { if (e) setVal((prev:any) => ({ ...prev, [name]: e.format("YYYY/MM/DD") })) }}
+                            onChange={(e) => { if (e) setVal((prev: any) => ({ ...prev, [name]: e.format("YYYY/MM/DD") })) }}
                             slotProps={{
                                 textField: {
-                                  error: !!error,
-                                  helperText: error,
+                                    error: !!error,
+                                    helperText: error,
                                 },
-                              }}
+                            }}
                         />
-                    </DemoContainer>
-                </LocalizationProvider>
-            </ThemeProvider>
-        </Box>
+                    </Box>
+                </DemoContainer>
+            </LocalizationProvider>
+        </ThemeProvider>
+        </div>
     );
 }
