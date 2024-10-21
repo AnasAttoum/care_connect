@@ -84,7 +84,7 @@ export default function EditDoctor() {
                         address: found.address,
                         salary: found.salary,
                         days: found.days,
-                        fromTo: found.fromTo
+                        fromTo: [dayjs(found.fromTo[0],'HH:mm:ss').toString(),dayjs(found.fromTo[1],'HH:mm:ss').toString()]
                 })
             })
         }
@@ -132,6 +132,8 @@ export default function EditDoctor() {
             formData.append('job_date', data.job_date)
             formData.append('address', data.address)
             formData.append('salary', data.salary.toString())
+            
+            console.log(dayjs(data.fromTo[0]).format('HH:mm:ss'))
 
             if (id)
                 dispatch(putDoctor({ data: formData, id: id })).unwrap().then(() => {

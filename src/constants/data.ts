@@ -224,7 +224,7 @@ export const doctors = [
         address: "123 Main Street",
         salary: 150000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()],
+        fromTo: ['08:00:00', '08:00:00'],
         department: {
             id: 1,
             name: "Lonie Ritchie",
@@ -241,7 +241,7 @@ export const doctors = [
         address: "456 Oak Avenue",
         salary: 120000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()],
+        fromTo: ['08:00:00', '08:00:00'],
         department: {
             id: 1,
             name: 'Lonie Ritchie'
@@ -258,7 +258,7 @@ export const doctors = [
         address: "789 Pine Street",
         salary: 180000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()],
+        fromTo: ['08:00:00', '08:00:00'],
         department: {
             id: 1,
             name: 'Lonie Ritchie'
@@ -275,7 +275,7 @@ export const doctors = [
         address: "1011 Elm Street",
         salary: 160000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()],
+        fromTo: ['08:00:00', '08:00:00'],
         department: {
             id: 1,
             name: 'Lonie Ritchie'
@@ -292,7 +292,7 @@ export const doctors = [
         address: "1213 Maple Street",
         salary: 140000,
         days: ['Sunday', 'Monday'],
-        fromTo: [new Date().toString(), new Date().toString()],
+        fromTo: ['08:00:00', '08:00:00'],
         department: {
             id: 1,
             name: 'Lonie Ritchie'

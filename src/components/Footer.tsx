@@ -10,7 +10,7 @@ export default function Footer() {
                 <div className="text-2xl font-bold">Care Connect</div>
             </div>
 
-            <div className="flex justify-center gap-5 ">
+            <div className="flex flex-wrap justify-center gap-5 ">
                 {links.map(({ name, url }, index) => {
                     return <Link to={url} key={index}>{name}</Link>
                 })}
