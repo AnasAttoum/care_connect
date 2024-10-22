@@ -137,7 +137,7 @@ export default function AddDoctor() {
                             backgroundColor: 'var(--secondary)',
                         },
                     }}>
-                        Upload File
+                        Upload Profile Image
                         <input type="file" accept="image/*" hidden onChange={handleSwitchImage} />
                     </Button>
                     <FormHelperText sx={{ color: '#d32f2f' }}>{error.image}</FormHelperText>
