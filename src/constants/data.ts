@@ -14,7 +14,6 @@ export const departments = [
         "description": "Soluta cumque quia adipisci itaque nihil cumque.",
         "phone_number": 452468,
         "room_count": 4,
-        "empty_room": 0,
         "doctor_count": 4
     },
     {
@@ -23,7 +22,6 @@ export const departments = [
         "description": "Quisquam eveniet qui beatae qui voluptatem fugit molestiae.",
         "phone_number": 7433287,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -32,7 +30,6 @@ export const departments = [
         "description": "Illum est facilis quos ut nulla qui reprehenderit.",
         "phone_number": 7064541,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -41,7 +38,6 @@ export const departments = [
         "description": "Laborum quae maiores est odit nobis.",
         "phone_number": 4471648,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -50,7 +46,6 @@ export const departments = [
         "description": "Numquam dolorem delectus sed expedita.",
         "phone_number": 5173662,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -59,7 +54,6 @@ export const departments = [
         "description": "Quo incidunt nesciunt culpa culpa.",
         "phone_number": 7861121,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -68,7 +62,6 @@ export const departments = [
         "description": "Perspiciatis odit omnis aut.",
         "phone_number": 8472667,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -77,7 +70,6 @@ export const departments = [
         "description": "Voluptatem deserunt pariatur enim eius.",
         "phone_number": 5913190,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -86,7 +78,6 @@ export const departments = [
         "description": "Vero laudantium ducimus repellendus.",
         "phone_number": 3346442,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     },
     {
@@ -95,7 +86,6 @@ export const departments = [
         "description": "Est quam temporibus non quia voluptatem.",
         "phone_number": 1247613,
         "room_count": 0,
-        "empty_room": 0,
         "doctor_count": 0
     }
 ];

@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from '../../lib/store';
 import { deleteDepartment } from '../../lib/slices/departmentSlice';
 
 
-export default function DepartmentCard({ department: { id, name, phone_number, room_count, empty_room, doctor_count, description } }: { department: department }) {
+export default function DepartmentCard({ department: { id, name, phone_number, room_count, doctor_count, description }, setDelete }: { department: department, setDelete: React.Dispatch<React.SetStateAction<number | undefined>> }) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
@@ -28,15 +28,15 @@ export default function DepartmentCard({ department: { id, name, phone_number, r
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
     const handleOpenDeleteModal = () => { setOpenDeleteModal(true); handleClose() }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
-    const handleDelete = () => {
 
+    const handleDelete = () => {
         dispatch(deleteDepartment(id.toString())).unwrap().then(() => {
+            setDelete(id)
             handleCloseDeleteModal()
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
             handleCloseDeleteModal()
         })
-
     }
 
     return (
@@ -74,14 +74,14 @@ export default function DepartmentCard({ department: { id, name, phone_number, r
                     <div className="text-gray-400">( {phone_number} )</div>
                 </div>
 
-                <div className="flex justify-between">
+                <div className="flex justify-evenly">
                     <div className="flex flex-col">
                         <div className="text-gray-400">Rooms</div>
                         <div className="text-[--primary]">{room_count}</div>
                     </div>
                     <div className="flex flex-col">
                         <div className="text-gray-400">available Rooms</div>
-                        <div className="text-[--primary]">{empty_room}</div>
+                        <div className="text-[--primary]">{0}</div>
                     </div>
                     <div className="flex flex-col">
                         <div className="text-gray-400">Doctors</div>
@@ -96,7 +96,7 @@ export default function DepartmentCard({ department: { id, name, phone_number, r
 
             </div>
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete}/>
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete} />
         </>
     )
 }

@@ -3,7 +3,7 @@ export interface department {
     name: string,
     phone_number: number,
     room_count: number,
-    empty_room: number,
+    // empty_room: number,
     doctor_count: number,
     description: string
 }
@@ -17,7 +17,11 @@ export interface room {
     department: {
         id: number,
         name: string
-    }
+    },
+    patients: {
+        id: number,
+        name: string
+    }[]
 }
 
 export interface doctor {

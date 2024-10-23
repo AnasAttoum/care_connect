@@ -24,6 +24,7 @@ export default function AddDepartment() {
         phone_number: '',
         description: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
         setData(prev => ({ ...prev, [name]: value }))
@@ -45,7 +46,7 @@ export default function AddDepartment() {
             dispatch(postDepartment(formData)).unwrap().then(() => {
                 navigate('/')
             }).catch((error) => {
-                console.log("🚀 ~ dispatch ~ error:", error.message)
+                setErrorFromBackend(error.message)
             })
 
         }
@@ -68,6 +69,7 @@ export default function AddDepartment() {
                 <BasicTextField val={data.phone_number} handleChange={handleChange} error={error.phone_number} name="phone_number" label="Phone Number" />
                 <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
 
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

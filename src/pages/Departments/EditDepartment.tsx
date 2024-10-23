@@ -27,11 +27,16 @@ export default function EditDepartment() {
         phone_number: '',
         description: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     useEffect(() => {
         if (id) {
             dispatch(getDepartment(id)).unwrap().then(result => {
-                console.log(result)
+                setData({
+                    name: result.data.name,
+                    phone_number: result.data.phone_number,
+                    description: result.data.description,
+                })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
                 const found = departments.find((department) => {
@@ -54,6 +59,7 @@ export default function EditDepartment() {
             phone_number: '',
             description: ''
         })
+        setErrorFromBackend('')
         try {
             await validateDepartment.validate(data, { abortEarly: false })
             const formData = new FormData()
@@ -65,7 +71,7 @@ export default function EditDepartment() {
                 dispatch(putDepartment({ data: formData, id: id })).unwrap().then(() => {
                     navigate('/')
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,6 +98,7 @@ export default function EditDepartment() {
                             <BasicTextField val={data.phone_number} handleChange={handleChange} error={error.phone_number} name="phone_number" label="Phone Number" />
                             <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
 
+                            <div className="text-center text-red-500">{errorFromBackend}</div>
                             <Btn click={handleEdit} title="Edit" />
                             {loadingPut === 'pending' &&
                                 <div className="flex justify-center my-5">

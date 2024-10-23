@@ -1,7 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import DepartmentCard from "../../components/Cards/DepartmentCard";
 import Title from "../../components/Title";
-import { departments } from "../../constants/data";
 import { useEffect, useState } from "react";
 import FloatingButton from "../../components/FloatingButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,8 @@ export default function Departments() {
     const { ref, inView, entry } = useInView()
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.department)
-    const [totalDepartments,setTotalDepartments]=useState<department[]>([])
+    const [totalDepartments, setTotalDepartments] = useState<department[]>([])
+    const [del, setDelete] = useState<number>()
 
     useEffect(() => {
         if (inView)
@@ -27,12 +27,18 @@ export default function Departments() {
 
     useEffect(() => {
         dispatch(getDepartments()).unwrap().then(result => {
-            console.log("🚀 ~ useEffect ~ result:", result)
+            setTotalDepartments(result.data)
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
-            setTotalDepartments(departments)
         })
     }, [dispatch])
+
+    useEffect(() => {
+        if (del)
+            setTotalDepartments(prev => prev.filter((el) => {
+                return el.id !== del
+            }))
+    }, [del])
 
     return (
         <>
@@ -45,7 +51,7 @@ export default function Departments() {
 
                         <div className="flex flex-wrap justify-center gap-x-4 gap-y-5" ref={ref}>
                             {totalDepartments.map((department, index) => {
-                                return <DepartmentCard key={index} department={department} />
+                                return <DepartmentCard key={index} department={department} setDelete={setDelete} />
                             })}
                         </div>
                     </div>

@@ -8,18 +8,18 @@ export const validateLogIn = Yup.object({
 
 
 export const validateDepartment = Yup.object({
-    name: Yup.string().required('Invalid name'),
-    phone_number: Yup.string().required('Invalid phone number'),
-    description: Yup.string().required('Invalid description')
+    name: Yup.string().required('Invalid name').min(2,'Name must be more than 1 characters').max(20,'Name must be less than 20 characters'),
+    phone_number: Yup.string().required('Invalid phone number').min(7,'Phone number must be more than 6 characters').max(10,'Phone number must be less than 20 characters'),
+    description: Yup.string().required('Invalid description').min(2,'Description must be more than 1 characters').max(255,'Description must be less than 255 characters')
 })
 
 
 export const validateRoom = Yup.object({
-    room_number: Yup.number().min(1, 'Invalid Room Number').required('Invalid Room Number'),
+    room_number: Yup.number().max(255, 'Invalid Room Number').required('Invalid Room Number'),
     status: Yup.string().required('Invalid Status'),
     department_id: Yup.number().required('Invalid Department'),
     type: Yup.string().required('Invalid Type'),
-    beds_number: Yup.number().min(1, 'Invalid Beds Number').required('Invalid Beds Number')
+    beds_number: Yup.number().min(1, 'Beds must be more than 0').max(7, 'Beds must be less than 8').required('Invalid Beds Number')
 })
 
 

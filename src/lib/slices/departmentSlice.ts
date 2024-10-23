@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
 import { department } from '../../constants/types'
@@ -20,17 +21,25 @@ export const getDepartment = createAsyncThunk(
 
 export const postDepartment = createAsyncThunk(
   'department/postDepartment',
-  async (data: FormData) => {
-    const response = await axiosInstance.post('departments', data)
-    return response.data
+  async (data: FormData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('departments', data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
 export const putDepartment = createAsyncThunk(
   'department/putDepartment',
-  async ({ data, id }: { data: FormData, id: string }) => {
-    const response = await axiosInstance.put(`departments/${id}`, data)
-    return response.data
+  async ({ data, id }: { data: FormData, id: string }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`departments/${id}`, data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
@@ -56,10 +65,8 @@ export const departmentSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getDepartments.fulfilled, (state, action) => {
+    builder.addCase(getDepartments.fulfilled, (state) => {
       state.loading = 'fulfilled'
-      console.log(state)
-      console.log(action)
       //   state.entities.push(action.payload)
     })
       .addCase(getDepartments.pending, (state) => {
@@ -69,10 +76,8 @@ export const departmentSlice = createSlice({
         state.loading = 'rejected'
       })
 
-      .addCase(getDepartment.fulfilled, (state, action) => {
+      .addCase(getDepartment.fulfilled, (state) => {
         state.loadingDepartment = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(getDepartment.pending, (state) => {
@@ -82,10 +87,8 @@ export const departmentSlice = createSlice({
         state.loadingDepartment = 'rejected'
       })
 
-      .addCase(postDepartment.fulfilled, (state, action) => {
+      .addCase(postDepartment.fulfilled, (state) => {
         state.loadingPost = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(postDepartment.pending, (state) => {
@@ -95,10 +98,8 @@ export const departmentSlice = createSlice({
         state.loadingPost = 'rejected'
       })
 
-      .addCase(putDepartment.fulfilled, (state, action) => {
+      .addCase(putDepartment.fulfilled, (state) => {
         state.loadingPut = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(putDepartment.pending, (state) => {
@@ -108,10 +109,8 @@ export const departmentSlice = createSlice({
         state.loadingPut = 'rejected'
       })
 
-      .addCase(deleteDepartment.fulfilled, (state, action) => {
+      .addCase(deleteDepartment.fulfilled, (state) => {
         state.loadingDelete = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(deleteDepartment.pending, (state) => {
