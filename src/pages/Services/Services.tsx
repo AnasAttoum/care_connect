@@ -1,6 +1,5 @@
 import { useInView } from "react-intersection-observer";
 import Title from "../../components/Title";
-import { services } from "../../constants/data";
 import { useEffect, useState } from "react";
 import ServiceCard from "../../components/Cards/ServiceCard";
 import FloatingButton from "../../components/FloatingButton";
@@ -16,6 +15,7 @@ export default function Services() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.service)
     const [totalServices, setTotalServices] = useState<service[]>([])
+    const [del, setDelete] = useState<number>()
 
     useEffect(() => {
         if (inView)
@@ -26,12 +26,18 @@ export default function Services() {
 
     useEffect(() => {
         dispatch(getServices()).unwrap().then(result => {
-            console.log("🚀 ~ useEffect ~ result:", result)
+            setTotalServices(result.data)
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
-            setTotalServices(services)
         })
     }, [dispatch])
+
+    useEffect(() => {
+        if (del)
+            setTotalServices(prev => prev.filter((el) => {
+                return el.id !== del
+            }))
+    }, [del])
 
     return (
         <>
@@ -44,7 +50,7 @@ export default function Services() {
 
                         <div className="flex flex-wrap justify-center gap-x-4 gap-y-5" ref={ref}>
                             {totalServices.map((service, index) => {
-                                return <ServiceCard key={index} service={service} />
+                                return <ServiceCard key={index} service={service} setDelete={setDelete} />
                             })}
                         </div>
                     </div>

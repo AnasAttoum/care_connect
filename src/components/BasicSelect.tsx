@@ -6,12 +6,10 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { FormHelperText } from '@mui/material';
 
 export default function BasicSelect({ val, setVal, error, name, label, data }: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     val: string | number, setVal: any, error: string, name: string, label: string, data: { id: number | string; name: string; }[]
 }) {
 
     const handleChange = (event: SelectChangeEvent) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setVal((prev:any) => ({ ...prev, [name]: event.target.value as string }));
     };
 

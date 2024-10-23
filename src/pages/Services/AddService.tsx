@@ -4,12 +4,11 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateService } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
-import { departments } from "../../constants/data";
-import { department } from "../../constants/types";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { useNavigate } from "react-router-dom";
 import { postService } from "../../lib/slices/serviceSlice";
+import { getDepartments } from "../../lib/slices/departmentSlice";
 
 export default function AddService() {
 
@@ -27,11 +26,16 @@ export default function AddService() {
         description: '',
         department_id: '',
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDepartments(departments.map((department: department) => { return { id: department.id, name: department.name } }))
-    }, [])
+        dispatch(getDepartments()).unwrap().then(result => {
+            setAllDepartments(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
@@ -52,12 +56,11 @@ export default function AddService() {
             formData.append('department_id', data.department_id.toString())
 
             dispatch(postService(formData)).unwrap().then(() => {
-                navigate('/')
+                navigate('/services')
             }).catch((error) => {
-                console.log("🚀 ~ dispatch ~ error:", error.message)
+                setErrorFromBackend(error.message)
             })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -76,6 +79,7 @@ export default function AddService() {
                 <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
                 <BasicSelect val={data.department_id} setVal={setData} error={error.department_id} name="department_id" label="Department" data={allDepartments} />
 
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

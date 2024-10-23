@@ -4,13 +4,12 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateService } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
-import { departments, services } from "../../constants/data";
-import { department } from "../../constants/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { getService, putService } from "../../lib/slices/serviceSlice";
 import Loading from "../Loading";
+import { getDepartments } from "../../lib/slices/departmentSlice";
 
 export default function EditService() {
 
@@ -29,28 +28,27 @@ export default function EditService() {
         description: '',
         department_id: '',
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDepartments(departments.map((department: department) => { return { id: department.id, name: department.name } }))
-    }, [])
+        dispatch(getDepartments()).unwrap().then(result => {
+            setAllDepartments(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
 
     useEffect(() => {
         if (id) {
             dispatch(getService(id)).unwrap().then(result => {
-                console.log(result)
+                setData({
+                    name: result.data.name,
+                    description: result.data.description,
+                    department_id: result.data.department.id,
+                })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
-
-                const found = services.find((service) => {
-                    return service.id === parseInt(id)
-                })
-                if (found)
-                    setData({
-                        name: found.name,
-                        description: found.description || '',
-                        department_id: found.department.id,
-                    })
             })
         }
     }, [id, dispatch])
@@ -77,10 +75,9 @@ export default function EditService() {
                 dispatch(putService({ data: formData, id: id })).unwrap().then(() => {
                     navigate('/services')
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -103,12 +100,13 @@ export default function EditService() {
                         <BasicTextField val={data.description} handleChange={handleChange} error={error.description} name="description" label="Description" />
                         <BasicSelect val={data.department_id} setVal={setData} error={error.department_id} name="department_id" label="Department" data={allDepartments} />
 
+                        <div className="text-center text-red-500">{errorFromBackend}</div>
                         <Btn click={handleEdit} title="Edit" />
                         {loadingPut === 'pending' &&
-                                <div className="flex justify-center my-5">
-                                    <div className="loader"></div>
-                                </div>
-                            }
+                            <div className="flex justify-center my-5">
+                                <div className="loader"></div>
+                            </div>
+                        }
                     </div>
 
                 </div>

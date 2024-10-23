@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { deleteService } from "../../lib/slices/serviceSlice";
 
-export default function ServiceCard({ service: { id, name, description, department } }: { service: service }) {
+export default function ServiceCard({ service: { id, name, description, department }, setDelete }: { service: service, setDelete: React.Dispatch<React.SetStateAction<number | undefined>> }) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
@@ -26,6 +26,7 @@ export default function ServiceCard({ service: { id, name, description, departme
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
         dispatch(deleteService(id.toString())).unwrap().then(() => {
+            setDelete(id)
             handleCloseDeleteModal()
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
@@ -69,12 +70,7 @@ export default function ServiceCard({ service: { id, name, description, departme
                 <div className="text-[--primary]">{description}</div>
 
 
-                <div className="flex">
-                    <div className="flex flex-col gap-5 w-1/2">
                         <div className="text-gray-400">Department: <span className="text-[--primary] font-bold">{department.name}</span></div>
-                    </div>
-
-                </div>
 
 
             </div>

@@ -7,7 +7,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BasicSelectDate({ label, val, name, setVal, error }: { label: string, val: string, setVal: any, name: string, error: string }) {
     const theme = createTheme({
         palette: {
@@ -28,7 +27,6 @@ export default function BasicSelectDate({ label, val, name, setVal, error }: { l
                             format="YYYY/MM/DD"
                             defaultValue={dayjs(val)}
                             value={dayjs(val)}
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             onChange={(e) => { if (e) setVal((prev: any) => ({ ...prev, [name]: e.format("YYYY/MM/DD") })) }}
                             slotProps={{
                                 textField: {
