@@ -2,14 +2,11 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
 import Title from "../../components/Title";
-import { rooms } from '../../constants/data';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useRef, useState } from 'react';
 import FloatingButton from '../../components/FloatingButton';
 import DeleteDialog from '../../components/DeleteDialog';
 import { Link } from 'react-router-dom';
-import Btn from '../../components/Btn';
-import FullScreenDialog from '../../components/FullScreenDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../lib/store';
 import { room } from '../../constants/types';
@@ -18,16 +15,16 @@ import Loading from '../Loading';
 
 
 
-const paginationModel = { page: 0, pageSize: 5 };
-
 export default function Rooms() {
 
     const { ref, inView, entry } = useInView()
     const id = useRef<number>(0)
 
     const dispatch = useDispatch<AppDispatch>()
-    const { loading,loadingDelete } = useSelector((state: RootState) => state.room)
+    const { loading, loadingDelete } = useSelector((state: RootState) => state.room)
     const [totalRooms, setTotalRooms] = useState<room[]>([])
+    const [totalRows, setTotalRows] = useState<number>(10)
+    const [paginationModel, setPaginationModel] = useState<{ page: number, pageSize: number }>({ page: 0, pageSize: 10 })
 
     useEffect(() => {
         if (entry)
@@ -35,11 +32,11 @@ export default function Rooms() {
     }, [inView, entry])
 
     useEffect(() => {
-        dispatch(getRooms()).unwrap().then(result => {
-            console.log("🚀 ~ useEffect ~ result:", result)
+        dispatch(getRooms(1)).unwrap().then(result => {
+            setTotalRows(result.pagination.total)
+            setTotalRooms(result.data)
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
-            setTotalRooms(rooms)
         })
     }, [dispatch])
 
@@ -51,6 +48,9 @@ export default function Rooms() {
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
         dispatch(deleteRoom(id.current.toString())).unwrap().then(() => {
+            setTotalRooms(prev => prev.filter((el) => {
+                return el.id !== id.current
+            }))
             handleCloseDeleteModal()
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
@@ -74,25 +74,26 @@ export default function Rooms() {
                 );
             }
         },
-        { field: 'department_name', headerName: 'Department', width: 180,
+        {
+            field: 'department_name', headerName: 'Department', width: 180,
             renderCell: (params) => {
                 return (
                     <div>{params.row.department.name}</div>
                 );
             }
-         },
+        },
         { field: 'type', headerName: 'Type', width: 180, },
         { field: 'beds_number', headerName: 'Beds Number', width: 180, },
-        {
-            field: 'patiens', headerName: 'Patients', width: 180,
-            renderCell: (params) => {
-                return (
-                    <div className='flex items-center gap-5 mt-3 w-full' style={{ height: '30px' }}>
-                        <Btn click={() => { setSelectedRoomID(params.id as number); handleClickOpen() }} title='Show Patients' />
-                    </div>
-                );
-            }
-        },
+        // {
+        //     field: 'patiens', headerName: 'Patients', width: 180,
+        //     renderCell: () => {
+        //         return (
+        //             <div className='flex items-center gap-5 mt-3 w-full' style={{ height: '30px' }}>
+        //                 <Btn click={() => {  setSelectedRoomID(params.id as number); handleClickOpen() }} title='Show Patients' />
+        //             </div>
+        //         );
+        //     }
+        // },
         {
             field: 'actions', headerName: 'Actions', width: 180,
             renderCell: (params) => {
@@ -114,12 +115,22 @@ export default function Rooms() {
         // },
     ];
 
-    const [open, setOpen] = useState(false);
-    const [selectedRoomID, setSelectedRoomID] = useState<number>();
+    // const [open, setOpen] = useState(false);
+    // const [selectedRoomID, setSelectedRoomID] = useState<number>();
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
+
+    const handleChangePage = (e: { page: number }) => {
+        setPaginationModel(prev => ({ ...prev, page: e.page }))
+        dispatch(getRooms(e.page + 1)).unwrap().then(result => {
+            setTotalRows(result.pagination.total)
+            setTotalRooms(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }
 
     return (
         <>
@@ -140,7 +151,11 @@ export default function Rooms() {
                                             rows={totalRooms}
                                             columns={columns}
                                             initialState={{ pagination: { paginationModel } }}
-                                            pageSizeOptions={[5, 10]}
+                                            pageSizeOptions={[10]}
+                                            rowCount={totalRows}
+                                            paginationMode="server"
+                                            paginationModel={paginationModel}
+                                            onPaginationModelChange={handleChangePage}
                                             // checkboxSelection
                                             sx={{ border: 0 }}
                                         />
@@ -152,7 +167,7 @@ export default function Rooms() {
 
                         </div>
 
-                        <FullScreenDialog open={open} setOpen={setOpen} selectedRoomID={selectedRoomID} />
+                        {/* <FullScreenDialog open={open} setOpen={setOpen} selectedRoomID={selectedRoomID} /> */}
 
                         <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete} />
 

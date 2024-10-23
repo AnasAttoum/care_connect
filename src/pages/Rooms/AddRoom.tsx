@@ -31,6 +31,7 @@ export default function AddRoom() {
         type: '',
         beds_number: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
@@ -60,9 +61,9 @@ export default function AddRoom() {
             formData.append('beds_number', data.beds_number.toString())
 
             dispatch(postRoom(formData)).unwrap().then(() => {
-                navigate('/')
+                navigate('/rooms')
             }).catch((error) => {
-                console.log("🚀 ~ dispatch ~ error:", error.message)
+                setErrorFromBackend(error.message)
             })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -83,9 +84,10 @@ export default function AddRoom() {
                 <BasicTextField val={data.room_number} handleChange={handleChange} error={error.room_number} name="room_number" label="Room Number" />
                 <BasicSelect val={data.status} setVal={setData} error={error.status} name="status" label="Status" data={[{ id: 'occupied', name: 'Occupied' }, { id: 'vacant', name: 'Vacant' }, { id: 'underMaintenance', name: 'Under Maintenance' }]} />
                 <BasicSelect val={data.department_id} setVal={setData} error={error.department_id} name="department_id" label="Department" data={allDepartments} />
-                <BasicTextField val={data.type} handleChange={handleChange} error={error.type} name="type" label="Type" />
+                <BasicSelect val={data.type} setVal={setData} error={error.type} name="type" label="Type" data={[{ id: 'general', name: 'General' }, { id: 'ICU', name: 'ICU' }, { id: 'surgical', name: 'Surgical' }]} />
                 <BasicTextField val={data.beds_number} handleChange={handleChange} error={error.beds_number} name="beds_number" label="Beds Number" />
 
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

@@ -4,13 +4,13 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateRoom } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
-import { departments, rooms } from "../../constants/data";
-import { department } from "../../constants/types";
+import { rooms } from "../../constants/data";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { getRoom, putRoom } from "../../lib/slices/roomSlice";
 import Loading from "../Loading";
+import { getDepartments } from "../../lib/slices/departmentSlice";
 
 export default function EditRoom() {
 
@@ -33,15 +33,28 @@ export default function EditRoom() {
         type: '',
         beds_number: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
+
     useEffect(() => {
-        setAllDepartments(departments.map((department: department) => { return { id: department.id, name: department.name } }))
-    }, [])
+        dispatch(getDepartments()).unwrap().then(result => {
+            setAllDepartments(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
+
     useEffect(() => {
         if (id) {
             dispatch(getRoom(id)).unwrap().then(result => {
-                console.log(result)
+                setData({
+                    room_number: result.data.room_number,
+                    status: result.data.status,
+                    department_id: result.data.department.id,
+                    type: result.data.type,
+                    beds_number: result.data.beds_number
+                })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
                 const found = rooms.find((room) => {
@@ -76,8 +89,8 @@ export default function EditRoom() {
         try {
             await validateRoom.validate(data, { abortEarly: false })
             const formData = new FormData()
-            formData.append('name', data.room_number.toString())
-            formData.append('phone_number', data.status)
+            formData.append('room_number', data.room_number.toString())
+            formData.append('status', data.status)
             formData.append('department_id', data.department_id.toString())
             formData.append('type', data.type)
             formData.append('beds_number', data.beds_number.toString())
@@ -86,7 +99,7 @@ export default function EditRoom() {
                 dispatch(putRoom({ data: formData, id: id })).unwrap().then(() => {
                     navigate('/rooms')
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,11 +122,12 @@ export default function EditRoom() {
                         <Title title="Edit Room" />
 
                         <BasicTextField val={data.room_number} handleChange={handleChange} error={error.room_number} name="room_number" label="Room Number" />
-                        <BasicSelect val={data.status} setVal={setData} error={error.status} name="status" label="Status" data={[{ id: 'occupied', name: 'Occupied' }, { id: 'vacant', name: 'Vacant' }, { id: 'underMaintenance', name: 'Under Maintenance' }]} />
+                        <BasicSelect val={data.status} setVal={setData} error={error.status} name="status" label="Status" data={[{ id: 'occupied', name: 'Occupied' }, { id: 'vacant', name: 'Vacant' }, { id: 'Under Maintenance', name: 'Under Maintenance' }]} />
                         <BasicSelect val={data.department_id} setVal={setData} error={error.department_id} name="department_id" label="Department" data={allDepartments} />
-                        <BasicTextField val={data.type} handleChange={handleChange} error={error.type} name="type" label="Type" />
+                        <BasicSelect val={data.type} setVal={setData} error={error.type} name="type" label="Type" data={[{ id: 'general', name: 'General' }, { id: 'ICU', name: 'ICU' }, { id: 'surgical', name: 'Surgical' }]} />
                         <BasicTextField val={data.beds_number} handleChange={handleChange} error={error.beds_number} name="beds_number" label="Beds Number" />
 
+                        <div className="text-center text-red-500">{errorFromBackend}</div>
                         <Btn click={handleEdit} title="Edit" />
                         {loadingPut === 'pending' &&
                             <div className="flex justify-center my-5">

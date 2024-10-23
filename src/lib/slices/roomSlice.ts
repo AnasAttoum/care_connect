@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
 import { room } from '../../constants/types'
 
 export const getRooms = createAsyncThunk(
   'room/getDepartments',
-  async () => {
-    const response = await axiosInstance.get('rooms')
+  async (page: number) => {
+    const response = await axiosInstance.get(`rooms?page=${page}`)
     return response.data
   },
 )
@@ -20,17 +21,25 @@ export const getRoom = createAsyncThunk(
 
 export const postRoom = createAsyncThunk(
   'room/postRoom',
-  async (data: FormData) => {
-    const response = await axiosInstance.post('rooms', data)
-    return response.data
+  async (data: FormData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('rooms', data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
 export const putRoom = createAsyncThunk(
   'room/putRoom',
-  async ({ data, id }: { data: FormData, id: string }) => {
-    const response = await axiosInstance.put(`rooms/${id}`, data)
-    return response.data
+  async ({ data, id }: { data: FormData, id: string }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`rooms/${id}`, data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
@@ -56,10 +65,8 @@ export const roomSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getRooms.fulfilled, (state, action) => {
+    builder.addCase(getRooms.fulfilled, (state) => {
       state.loading = 'fulfilled'
-      console.log(state)
-      console.log(action)
       //   state.entities.push(action.payload)
     })
       .addCase(getRooms.pending, (state) => {
@@ -69,10 +76,8 @@ export const roomSlice = createSlice({
         state.loading = 'rejected'
       })
 
-      .addCase(getRoom.fulfilled, (state, action) => {
+      .addCase(getRoom.fulfilled, (state) => {
         state.loadingRoom = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(getRoom.pending, (state) => {
@@ -82,10 +87,8 @@ export const roomSlice = createSlice({
         state.loadingRoom = 'rejected'
       })
 
-      .addCase(postRoom.fulfilled, (state, action) => {
+      .addCase(postRoom.fulfilled, (state) => {
         state.loadingPost = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(postRoom.pending, (state) => {
@@ -95,10 +98,8 @@ export const roomSlice = createSlice({
         state.loadingPost = 'rejected'
       })
 
-      .addCase(putRoom.fulfilled, (state, action) => {
+      .addCase(putRoom.fulfilled, (state) => {
         state.loadingPut = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(putRoom.pending, (state) => {
@@ -108,10 +109,8 @@ export const roomSlice = createSlice({
         state.loadingPut = 'rejected'
       })
 
-      .addCase(deleteRoom.fulfilled, (state, action) => {
+      .addCase(deleteRoom.fulfilled, (state) => {
         state.loadingDelete = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(deleteRoom.pending, (state) => {
