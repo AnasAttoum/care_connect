@@ -43,7 +43,6 @@ export default function Rooms() {
 
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleOpenDeleteModal = (params: any) => { setOpenDeleteModal(true); id.current = params.id }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {

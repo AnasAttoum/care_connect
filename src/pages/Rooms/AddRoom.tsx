@@ -4,12 +4,11 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateRoom } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
-import { departments } from "../../constants/data";
-import { department } from "../../constants/types";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { useNavigate } from "react-router-dom";
 import { postRoom } from "../../lib/slices/roomSlice";
+import { getDepartments } from "../../lib/slices/departmentSlice";
 
 export default function AddRoom() {
 
@@ -35,8 +34,12 @@ export default function AddRoom() {
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDepartments(departments.map((department: department) => { return { id: department.id, name: department.name } }))
-    }, [])
+        dispatch(getDepartments()).unwrap().then(result => {
+            setAllDepartments(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
@@ -66,7 +69,6 @@ export default function AddRoom() {
                 setErrorFromBackend(error.message)
             })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))

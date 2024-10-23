@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
-import { service } from '../../constants/types'
 
 export const getServices = createAsyncThunk(
   'service/getServices',
@@ -20,17 +19,25 @@ export const getService = createAsyncThunk(
 
 export const postService = createAsyncThunk(
   'service/postService',
-  async (data: FormData) => {
-    const response = await axiosInstance.post('services', data)
-    return response.data
+  async (data: FormData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('services', data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data)
+    }
   },
 )
 
 export const putService = createAsyncThunk(
   'service/putService',
-  async ({ data, id }: { data: FormData, id: string }) => {
-    const response = await axiosInstance.put(`services/${id}`, data)
-    return response.data
+  async ({ data, id }: { data: FormData, id: string }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`services/${id}`, data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data)
+    }
   },
 )
 
@@ -42,13 +49,12 @@ export const deleteService = createAsyncThunk(
   },
 )
 
-const initialState: { loading: string, loadingService: string, loadingPost: string, loadingPut: string, loadingDelete: string, services: service[] } = {
+const initialState: { loading: string, loadingService: string, loadingPost: string, loadingPut: string, loadingDelete: string } = {
   loading: '',
   loadingService: '',
   loadingPost: '',
   loadingPut: '',
   loadingDelete: '',
-  services: []
 }
 
 export const serviceSlice = createSlice({
@@ -56,10 +62,8 @@ export const serviceSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getServices.fulfilled, (state, action) => {
+    builder.addCase(getServices.fulfilled, (state) => {
       state.loading = 'fulfilled'
-      console.log(state)
-      console.log(action)
       //   state.entities.push(action.payload)
     })
       .addCase(getServices.pending, (state) => {
@@ -69,10 +73,8 @@ export const serviceSlice = createSlice({
         state.loading = 'rejected'
       })
 
-      .addCase(getService.fulfilled, (state, action) => {
+      .addCase(getService.fulfilled, (state) => {
         state.loadingService = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(getService.pending, (state) => {
@@ -82,10 +84,8 @@ export const serviceSlice = createSlice({
         state.loadingService = 'rejected'
       })
 
-      .addCase(postService.fulfilled, (state, action) => {
+      .addCase(postService.fulfilled, (state) => {
         state.loadingPost = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(postService.pending, (state) => {
@@ -95,10 +95,8 @@ export const serviceSlice = createSlice({
         state.loadingPost = 'rejected'
       })
 
-      .addCase(putService.fulfilled, (state, action) => {
+      .addCase(putService.fulfilled, (state) => {
         state.loadingPut = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(putService.pending, (state) => {
@@ -108,10 +106,8 @@ export const serviceSlice = createSlice({
         state.loadingPut = 'rejected'
       })
 
-      .addCase(deleteService.fulfilled, (state, action) => {
+      .addCase(deleteService.fulfilled, (state) => {
         state.loadingDelete = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(deleteService.pending, (state) => {

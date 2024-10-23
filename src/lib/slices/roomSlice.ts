@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
-import { room } from '../../constants/types'
 
 export const getRooms = createAsyncThunk(
   'room/getDepartments',
@@ -51,13 +49,12 @@ export const deleteRoom = createAsyncThunk(
   },
 )
 
-const initialState: { loading: string, loadingRoom: string, loadingPost: string, loadingPut: string, loadingDelete: string, rooms: room[] } = {
+const initialState: { loading: string, loadingRoom: string, loadingPost: string, loadingPut: string, loadingDelete: string } = {
   loading: '',
   loadingRoom: '',
   loadingPost: '',
   loadingPut: '',
   loadingDelete: '',
-  rooms: []
 }
 
 export const roomSlice = createSlice({
