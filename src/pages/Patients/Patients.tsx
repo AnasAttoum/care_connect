@@ -2,7 +2,6 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
 import Title from "../../components/Title";
-import { patients } from '../../constants/data';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useRef, useState } from 'react';
 import FloatingButton from '../../components/FloatingButton';
@@ -35,20 +34,21 @@ export default function Patients() {
 
     useEffect(() => {
         dispatch(getPatients()).unwrap().then(result => {
-            console.log("🚀 ~ useEffect ~ result:", result)
+            setTotalPatients(result.data)
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
-            setTotalPatients(patients)
         })
     }, [dispatch])
 
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleOpenDeleteModal = (params: any) => { setOpenDeleteModal(true); id.current = params.id }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
         dispatch(deletePatient(id.current.toString())).unwrap().then(() => {
+            setTotalPatients(prev => prev.filter((el) => {
+                return el.id !== id.current
+            }))
             handleCloseDeleteModal()
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)

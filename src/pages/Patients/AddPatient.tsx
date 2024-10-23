@@ -32,6 +32,7 @@ export default function AddPatient() {
         address: '',
         mobile_number: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
@@ -58,12 +59,11 @@ export default function AddPatient() {
             formData.append('mobile_number', data.mobile_number)
 
             dispatch(postPatient(formData)).unwrap().then(() => {
-                navigate('/')
+                navigate('/patients')
             }).catch((error) => {
-                console.log("🚀 ~ dispatch ~ error:", error.message)
+                setErrorFromBackend(error.message)
             })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -85,6 +85,7 @@ export default function AddPatient() {
                 <BasicTextField val={data.address} handleChange={handleChange} error={error.address} name="address" label="Address" />
                 <BasicTextField val={data.mobile_number} handleChange={handleChange} error={error.mobile_number} name="mobile_number" label="Mobile Number" />
 
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

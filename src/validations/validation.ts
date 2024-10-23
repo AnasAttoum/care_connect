@@ -54,7 +54,7 @@ export const validateService = Yup.object({
 
 
 export const validatePatient = Yup.object({
-    name: Yup.string().required('Invalid name'),
+    name: Yup.string().required('Invalid name').min(2,'Name must be more than 1 characters').max(20,'Name must be less than 20 characters'),
     birth_date: Yup.string().required('Invalid Birth Date'),
     gender: Yup.string().oneOf(['male', 'female']).required('Invalid description'),
     medical_description: Yup.string().required('Invalid medical_description'),

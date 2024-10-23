@@ -6,7 +6,6 @@ import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
 import BasicSelectDate from "../../components/BasicSelectDate";
 import { useNavigate, useParams } from "react-router-dom";
-import { patients } from "../../constants/data";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { getPatient, putPatient } from "../../lib/slices/patientSlice";
@@ -27,7 +26,6 @@ export default function EditPatient() {
         address: '',
         mobile_number: ''
     })
-    console.log("🚀 ~ EditPatient ~ data:", data)
     const [error, setError] = useState({
         name: '',
         birth_date: '',
@@ -36,19 +34,14 @@ export default function EditPatient() {
         address: '',
         mobile_number: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     useEffect(() => {
         if (id) {
             dispatch(getPatient(id)).unwrap().then(result => {
-                console.log(result)
+                setData(result.data)
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
-                const found = patients.find((patient) => {
-                    return patient.id === parseInt(id)
-                })
-
-                if (found)
-                    setData(found)
             })
 
         }
@@ -80,12 +73,11 @@ export default function EditPatient() {
 
             if (id)
                 dispatch(putPatient({ data: formData, id: id })).unwrap().then(() => {
-                    navigate('/rooms')
+                    navigate('/patients')
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -111,6 +103,7 @@ export default function EditPatient() {
                         <BasicTextField val={data.address} handleChange={handleChange} error={error.address} name="address" label="Address" />
                         <BasicTextField val={data.mobile_number} handleChange={handleChange} error={error.mobile_number} name="mobile_number" label="Mobile Number" />
 
+                        <div className="text-center text-red-500">{errorFromBackend}</div>
                         <Btn click={handleEdit} title="Edit" />
                         {loadingPut === 'pending' &&
                             <div className="flex justify-center my-5">
