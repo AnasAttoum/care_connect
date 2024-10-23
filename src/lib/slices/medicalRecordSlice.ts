@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
-import { medicalRecord } from '../../constants/types'
 
 export const getMedicalRecords = createAsyncThunk(
   'medicalRecord/getMedicalRecords',
@@ -20,17 +19,25 @@ export const getMedicalRecord = createAsyncThunk(
 
 export const postMedicalRecord = createAsyncThunk(
   'medicalRecord/postMedicalRecord',
-  async (data: FormData) => {
-    const response = await axiosInstance.post('medical-records', data)
-    return response.data
+  async (data:any, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('medical-records', data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
 export const putMedicalRecord = createAsyncThunk(
   'medicalRecord/putMedicalRecord',
-  async ({ data, id }: { data: FormData, id: string }) => {
-    const response = await axiosInstance.put(`medical-records/${id}`, data)
-    return response.data
+  async ({ data, id }: { data: any, id: string }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`medical-records/${id}`, data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
@@ -42,24 +49,21 @@ export const deleteMedicalRecord = createAsyncThunk(
   },
 )
 
-const initialState: { loading: string, loadingMedicalRecord: string, loadingPost: string, loadingPut: string, loadingDelete: string, MedicalRecords: medicalRecord[] } = {
+const initialState: { loading: string, loadingMedicalRecord: string, loadingPost: string, loadingPut: string, loadingDelete: string } = {
   loading: '',
   loadingMedicalRecord: '',
   loadingPost: '',
   loadingPut: '',
   loadingDelete: '',
-  MedicalRecords: []
 }
 
-export const medicalRecordsSlice = createSlice({
+export const medicalRecordSlice = createSlice({
   name: 'medicalRecords',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getMedicalRecords.fulfilled, (state, action) => {
+    builder.addCase(getMedicalRecords.fulfilled, (state) => {
       state.loading = 'fulfilled'
-      console.log(state)
-      console.log(action)
       //   state.entities.push(action.payload)
     })
       .addCase(getMedicalRecords.pending, (state) => {
@@ -69,10 +73,8 @@ export const medicalRecordsSlice = createSlice({
         state.loading = 'rejected'
       })
 
-      .addCase(getMedicalRecord.fulfilled, (state, action) => {
+      .addCase(getMedicalRecord.fulfilled, (state) => {
         state.loadingMedicalRecord = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(getMedicalRecord.pending, (state) => {
@@ -82,10 +84,8 @@ export const medicalRecordsSlice = createSlice({
         state.loadingMedicalRecord = 'rejected'
       })
 
-      .addCase(postMedicalRecord.fulfilled, (state, action) => {
+      .addCase(postMedicalRecord.fulfilled, (state) => {
         state.loadingPost = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(postMedicalRecord.pending, (state) => {
@@ -95,10 +95,8 @@ export const medicalRecordsSlice = createSlice({
         state.loadingPost = 'rejected'
       })
 
-      .addCase(putMedicalRecord.fulfilled, (state, action) => {
+      .addCase(putMedicalRecord.fulfilled, (state) => {
         state.loadingPut = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(putMedicalRecord.pending, (state) => {
@@ -108,10 +106,8 @@ export const medicalRecordsSlice = createSlice({
         state.loadingPut = 'rejected'
       })
 
-      .addCase(deleteMedicalRecord.fulfilled, (state, action) => {
+      .addCase(deleteMedicalRecord.fulfilled, (state) => {
         state.loadingDelete = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(deleteMedicalRecord.pending, (state) => {
@@ -123,4 +119,4 @@ export const medicalRecordsSlice = createSlice({
   },
 })
 
-export default medicalRecordsSlice.reducer
+export default medicalRecordSlice.reducer

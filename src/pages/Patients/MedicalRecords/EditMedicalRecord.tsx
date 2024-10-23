@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../lib/store";
-import { doctors, medicalRecords, rooms } from "../../../constants/data";
-import { doctor, room } from "../../../constants/types";
+import {  medicalRecords, rooms } from "../../../constants/data";
+import { room } from "../../../constants/types";
 import { validateMedicalRecord } from "../../../validations/validation";
-import { getMedicalRecord, putMedicalRecord } from "../../../lib/slices/medicalRecords";
+import { getMedicalRecord, putMedicalRecord } from "../../../lib/slices/medicalRecordSlice";
 import Title from "../../../components/Title";
 import Btn from "../../../components/Btn";
 import BasicSelect from "../../../components/BasicSelect";
@@ -13,6 +13,7 @@ import BasicSelectDate from "../../../components/BasicSelectDate";
 import BasicTextField from "../../../components/BasicTextField";
 import Loading from "../../Loading";
 import { Box, createTheme, TextField, ThemeProvider } from "@mui/material";
+import { getDoctors } from "../../../lib/slices/doctorSlice";
 
 const theme = createTheme({
     palette: {
@@ -47,18 +48,31 @@ export default function EditMedicalRecord() {
         medicines: '',
         details: '',
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDoctors, setAllDoctors] = useState<{ id: number; name: string; }[]>([])
     const [allRooms, setAllRooms] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDoctors(doctors.map((doctor: doctor) => { return { id: doctor.id || 0, name: doctor.name } }))
+        dispatch(getDoctors()).unwrap().then(result => {
+            setAllDoctors(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
         setAllRooms(rooms.map((room: room) => { return { id: room.id || 0, name: room.room_number.toString() } }))
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (id) {
             dispatch(getMedicalRecord(id)).unwrap().then(result => {
-                console.log(result)
+                setData({
+                    doctor_id: result.data.doctor.id,
+                    room_id: result.data.room.id,
+                    blood_type: result.data.blood_type.toUpperCase(),
+                    admission_date: result.data.admission_date,
+                    discharge_date: result.data.discharge_date,
+                    medicines: result.data.medicines,
+                    details: result.data.details,
+                })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
                 const found = medicalRecords.find((record) => {
@@ -97,24 +111,24 @@ export default function EditMedicalRecord() {
         try {
             await validateMedicalRecord.validate(data, { abortEarly: false })
             if (patientId && id) {
-                const formData = new FormData()
-                formData.append('patient_id', patientId)
-                formData.append('doctor_id', data.doctor_id.toString())
-                formData.append('room_id', data.room_id.toString())
-                formData.append('blood_type', data.blood_type)
-                formData.append('admission_date', data.admission_date)
-                formData.append('discharge_date', data.discharge_date)
-                formData.append('medicines', data.medicines.join())
-                formData.append('details', data.details)
+                const form ={
+                    patient_id:patientId,
+                    doctor_id:data.doctor_id,
+                    room_id:data.room_id,
+                    blood_type:data.blood_type,
+                    admission_date:data.admission_date,
+                    discharge_date:data.discharge_date,
+                    medicines:data.medicines,
+                    details:data.details,
+                }
 
-                dispatch(putMedicalRecord({ data: formData, id: id })).unwrap().then(() => {
-                    navigate('/')
+                dispatch(putMedicalRecord({ data: form, id: id })).unwrap().then(() => {
+                    navigate(`/patients/${patientId}`)
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
             }
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -181,6 +195,7 @@ export default function EditMedicalRecord() {
 
                         </Box>
 
+                        <div className="text-center text-red-500">{errorFromBackend}</div>
                         <Btn click={handleEdit} title="Edit" />
                         {loadingPut === 'pending' &&
                             <div className="flex justify-center my-5">

@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../lib/store";
-import { doctors, rooms } from "../../../constants/data";
-import { doctor, room } from "../../../constants/types";
 import { validateMedicalRecord } from "../../../validations/validation";
-import { postMedicalRecord } from "../../../lib/slices/medicalRecords";
+import { postMedicalRecord } from "../../../lib/slices/medicalRecordSlice";
 import Title from "../../../components/Title";
 import Btn from "../../../components/Btn";
 import BasicSelect from "../../../components/BasicSelect";
 import BasicSelectDate from "../../../components/BasicSelectDate";
 import BasicTextField from "../../../components/BasicTextField";
 import { Box, createTheme, TextField, ThemeProvider } from "@mui/material";
+import { getDoctors } from "../../../lib/slices/doctorSlice";
+import { rooms } from "../../../constants/data";
+import { room } from "../../../constants/types";
 
 const theme = createTheme({
     palette: {
@@ -37,7 +38,6 @@ export default function AddMedicalRecord() {
         medicines: [''],
         details: '',
     })
-    console.log(data.medicines)
     const [error, setError] = useState({
         doctor_id: '',
         room_id: '',
@@ -47,13 +47,18 @@ export default function AddMedicalRecord() {
         medicines: '',
         details: '',
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDoctors, setAllDoctors] = useState<{ id: number; name: string; }[]>([])
     const [allRooms, setAllRooms] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDoctors(doctors.map((doctor: doctor) => { return { id: doctor.id || 0, name: doctor.name } }))
+        dispatch(getDoctors()).unwrap().then(result => {
+            setAllDoctors(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
         setAllRooms(rooms.map((room: room) => { return { id: room.id || 0, name: room.room_number.toString() } }))
-    }, [])
+    }, [dispatch])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
@@ -73,24 +78,23 @@ export default function AddMedicalRecord() {
         try {
             await validateMedicalRecord.validate(data, { abortEarly: false })
             if (patientId) {
-                const formData = new FormData()
-                formData.append('patient_id', patientId)
-                formData.append('doctor_id', data.doctor_id.toString())
-                formData.append('room_id', data.room_id.toString())
-                formData.append('blood_type', data.blood_type)
-                formData.append('admission_date', data.admission_date)
-                formData.append('discharge_date', data.discharge_date)
-                formData.append('medicines', data.medicines.join())
-                formData.append('details', data.details)
-
-                dispatch(postMedicalRecord(formData)).unwrap().then(() => {
-                    navigate('/')
+                const form ={
+                    patient_id:patientId,
+                    doctor_id:data.doctor_id,
+                    room_id:data.room_id,
+                    blood_type:data.blood_type,
+                    admission_date:data.admission_date,
+                    discharge_date:data.discharge_date,
+                    medicines:data.medicines,
+                    details:data.details,
+                }
+                dispatch(postMedicalRecord(form)).unwrap().then(() => {
+                    navigate(`/patients/${patientId}`)
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
             }
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -121,7 +125,7 @@ export default function AddMedicalRecord() {
                         <div className="flex flex-col items-center !w-full" >
                             {data.medicines.map((_medicin, index) => {
                                 return <div key={index} className="flex items-center justify-center gap-5" style={{ width: '80%' }}>
-                                    <TextField style={{ width: '100%', marginBlock: '20px', color: 'var(--primary)' }} id="outlined-basic" label={`Medicine Number ${index+1}`} variant="outlined" value={data.medicines[index]}
+                                    <TextField style={{ width: '100%', marginBlock: '20px', color: 'var(--primary)' }} id="outlined-basic" label={`Medicine Number ${index + 1}`} variant="outlined" value={data.medicines[index]}
                                         onChange={(e) => setData(prev => ({
                                             ...prev,
                                             medicines: prev.medicines.map((el, i) => {
@@ -153,6 +157,7 @@ export default function AddMedicalRecord() {
 
                 </Box>
 
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

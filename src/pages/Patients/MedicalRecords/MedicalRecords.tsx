@@ -7,7 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../lib/store';
 import { medicalRecord } from '../../../constants/types';
-import { deleteMedicalRecord, getMedicalRecords } from '../../../lib/slices/medicalRecords';
+import { deleteMedicalRecord, getMedicalRecords } from '../../../lib/slices/medicalRecordSlice';
 import { medicalRecords } from '../../../constants/data';
 import Loading from '../../Loading';
 import DeleteDialog from '../../../components/DeleteDialog';
@@ -34,7 +34,7 @@ export default function MedicalRecords() {
 
   useEffect(() => {
     dispatch(getMedicalRecords()).unwrap().then(result => {
-      console.log("🚀 ~ useEffect ~ result:", result)
+      setTotalMedicalRecords(result.data)
     }).catch((error) => {
       console.log("🚀 ~ dispatch ~ error:", error.message)
       setTotalMedicalRecords(medicalRecords)
@@ -44,11 +44,13 @@ export default function MedicalRecords() {
 
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleOpenDeleteModal = (params: any) => { setOpenDeleteModal(true); idDel.current = params.id }
   const handleCloseDeleteModal = () => setOpenDeleteModal(false);
   const handleDelete = () => {
     dispatch(deleteMedicalRecord(idDel.current.toString())).unwrap().then(() => {
+      setTotalMedicalRecords(prev => prev.filter((el) => {
+        return el.id !== idDel.current
+    }))
       handleCloseDeleteModal()
     }).catch((error) => {
       console.log("🚀 ~ dispatch ~ error:", error.message)
@@ -60,7 +62,7 @@ export default function MedicalRecords() {
       field: 'patient_id', headerName: 'Patient Name', width: 150,
       renderCell: (params) => {
         return (
-          <span>{params.row.patient_id.name}</span>
+          <span>{params.row.patient.name}</span>
         );
       }
     },
@@ -87,7 +89,7 @@ export default function MedicalRecords() {
       field: 'medicines', headerName: 'Medicines', width: 300,
       renderCell: (params) => {
         return (
-          <span>{params.row.medicines}</span>
+          <span>{params.row.medicines.join(', ')}</span>
         );
       }
     },
@@ -98,7 +100,7 @@ export default function MedicalRecords() {
       field: 'doctor_id', headerName: 'Doctor', width: 75,
       renderCell: (params) => {
         return (
-          <span>{params.row.doctor_id.name}</span>
+          <span>{params.row.doctor.name}</span>
         );
       }
     },
@@ -106,7 +108,7 @@ export default function MedicalRecords() {
       field: 'room_id', headerName: 'Room', width: 75,
       renderCell: (params) => {
         return (
-          <span>{params.row.room_id.room_number}</span>
+          <span>{params.row.room.room_number}</span>
         );
       }
     },
@@ -135,20 +137,26 @@ export default function MedicalRecords() {
 
               <div className='flex justify-center'>
 
-                <Paper sx={{ width: 'fit-content', overflowX: 'scroll', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
-
-                  <div className='px-5 py-2' style={{ display: 'flex', flexDirection: 'column', opacity: '0' }} ref={ref}>
-                    <DataGrid
-                      rows={totalMedicalRecords}
-                      columns={columns}
-                      initialState={{ pagination: { paginationModel } }}
-                      pageSizeOptions={[5, 10]}
-                      // checkboxSelection
-                      sx={{ border: 0 }}
-                    />
+                {totalMedicalRecords.length === 0 ?
+                  <div className='flex justify-center items-center' style={{minHeight:'50vh'}}>
+                    <div>No Medical Record here yet</div>
                   </div>
+                  :
+                  <Paper sx={{ width: 'fit-content', overflowX: 'scroll', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset' }}>
 
-                </Paper>
+                    <div className='px-5 py-2' style={{ display: 'flex', flexDirection: 'column', opacity: '0' }} ref={ref}>
+                      <DataGrid
+                        rows={totalMedicalRecords}
+                        columns={columns}
+                        initialState={{ pagination: { paginationModel } }}
+                        pageSizeOptions={[5, 10]}
+                        // checkboxSelection
+                        sx={{ border: 0 }}
+                      />
+                    </div>
+                  </Paper>
+                }
+
 
               </div>
 

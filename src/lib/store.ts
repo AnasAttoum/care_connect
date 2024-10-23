@@ -5,7 +5,7 @@ import roomSlice from './slices/roomSlice'
 import serviceSlice from './slices/serviceSlice'
 import doctorSlice from './slices/doctorSlice'
 import patientSlice from './slices/patientSlice'
-import medicalRecordsSlice from './slices/medicalRecords'
+import medicalRecordSlice from './slices/medicalRecordSlice'
 import SurgeriesSlice from './slices/SurgeriesSlice'
 
 export const store = configureStore({
@@ -15,7 +15,7 @@ export const store = configureStore({
     service: serviceSlice,
     doctor: doctorSlice,
     patient: patientSlice,
-    medicalRecord: medicalRecordsSlice,
+    medicalRecord: medicalRecordSlice,
     surgery:SurgeriesSlice,
   },
 })

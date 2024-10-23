@@ -77,6 +77,6 @@ export const validateMedicalRecord = Yup.object({
     room_id: Yup.string().required('Invalid Room Number'),
     blood_type: Yup.string().required('Invalid Blood Type'),
     admission_date: Yup.string().required('Invalid Date'),
-    discharge_date: Yup.string().required('Invalid Date'),
+    discharge_date: Yup.string().notRequired(),
     details: Yup.string().required('Invalid Details'),
 })

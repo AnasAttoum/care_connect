@@ -77,6 +77,7 @@ export interface surgery {
 }
 
 export interface medicalRecord {
+    id: number,
     patient_id: {
         id: number,
         name: string,
