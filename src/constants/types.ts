@@ -18,10 +18,6 @@ export interface room {
         id: number,
         name: string
     },
-    patients: {
-        id: number,
-        name: string
-    }[]
 }
 
 export interface doctor {
