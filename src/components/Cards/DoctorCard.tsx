@@ -7,7 +7,7 @@ import { deleteDoctor } from "../../lib/slices/doctorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 
-export default function DoctorCard({ doctor: { id, name, image, speciality, department, mobile_number, job_date, address, salary } }: { doctor: doctor }) {
+export default function DoctorCard({ doctor: { id, name, image, speciality, department, mobile_number, job_date, address, salary }, setDelete }: { doctor: doctor, setDelete: React.Dispatch<React.SetStateAction<number | undefined>> }) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
@@ -25,8 +25,9 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
     const handleOpenDeleteModal = () => { setOpenDeleteModal(true); handleClose() }
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
     const handleDelete = () => {
-        if(id)
+        if (id)
             dispatch(deleteDoctor(id.toString())).unwrap().then(() => {
+                setDelete(id)
                 handleCloseDeleteModal()
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
@@ -40,7 +41,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
 
 
                 <div className="absolute -top-12 left-10 bg-white p-2 rounded-md">
-                    <img src={image} alt={name} className="rounded-md " style={{ width: '100px', height: '100px', }} />
+                    <img src={import.meta.env.VITE_API_Server + image} alt={name} className="rounded-md " style={{ width: '100px', height: '100px', }} />
                 </div>
 
                 <div className="flex justify-end">
@@ -64,7 +65,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={()=>{handleClose();setTimeout(()=>{navigate(`/doctors/edit/${id}`)},1)}}>Edit</MenuItem>
+                            <MenuItem onClick={() => { handleClose(); setTimeout(() => { navigate(`/doctors/edit/${id}`) }, 1) }}>Edit</MenuItem>
                             <MenuItem onClick={handleOpenDeleteModal}><span className='text-red-500'>Delete</span></MenuItem>
                         </Menu>
                     </div>
@@ -88,7 +89,7 @@ export default function DoctorCard({ doctor: { id, name, image, speciality, depa
 
             </div>
 
-            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete}/>
+            <DeleteDialog open={openDeleteModal} handleClose={handleCloseDeleteModal} handleDelete={handleDelete} loading={loadingDelete} />
         </>
     )
 }

@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../lib/store";
-import {  medicalRecords, rooms } from "../../../constants/data";
-import { room } from "../../../constants/types";
 import { validateMedicalRecord } from "../../../validations/validation";
 import { getMedicalRecord, putMedicalRecord } from "../../../lib/slices/medicalRecordSlice";
 import Title from "../../../components/Title";
@@ -14,6 +12,7 @@ import BasicTextField from "../../../components/BasicTextField";
 import Loading from "../../Loading";
 import { Box, createTheme, TextField, ThemeProvider } from "@mui/material";
 import { getDoctors } from "../../../lib/slices/doctorSlice";
+import { getListOfRooms } from "../../../lib/slices/roomSlice";
 
 const theme = createTheme({
     palette: {
@@ -58,7 +57,13 @@ export default function EditMedicalRecord() {
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
         })
-        setAllRooms(rooms.map((room: room) => { return { id: room.id || 0, name: room.room_number.toString() } }))
+        dispatch(getListOfRooms()).unwrap().then(result => {
+            setAllRooms(result.data.map((room:{id:number,room_number:number})=>{
+                return{id:room.id,name:room.room_number.toString()}
+            }))
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
     }, [dispatch])
 
     useEffect(() => {
@@ -75,20 +80,20 @@ export default function EditMedicalRecord() {
                 })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
-                const found = medicalRecords.find((record) => {
-                    return record.id === parseInt(id)
-                })
+                // const found = medicalRecords.find((record) => {
+                //     return record.id === parseInt(id)
+                // })
 
-                if (found)
-                    setData({
-                        doctor_id: found.doctor_id.id,
-                        room_id: found.room_id.id,
-                        blood_type: found.blood_type.toUpperCase(),
-                        admission_date: found.admission_date,
-                        discharge_date: found.discharge_date,
-                        medicines: found.medicines[0].split(','),
-                        details: found.details,
-                    })
+                // if (found)
+                //     setData({
+                //         doctor_id: found.doctor_id.id,
+                //         room_id: found.room_id.id,
+                //         blood_type: found.blood_type.toUpperCase(),
+                //         admission_date: found.admission_date,
+                //         discharge_date: found.discharge_date,
+                //         medicines: found.medicines[0].split(','),
+                //         details: found.details,
+                //     })
             })
         }
     }, [id, dispatch])

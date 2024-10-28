@@ -5,8 +5,6 @@ import { validateDoctor } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import { Button, createTheme, FormHelperText, ThemeProvider } from "@mui/material";
 import BasicSelect from "../../components/BasicSelect";
-import { departments } from "../../constants/data";
-import { department } from "../../constants/types";
 import { Checkbox, List, ListItem } from "@mui/joy";
 import { LocalizationProvider, MobileTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -17,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { useNavigate } from "react-router-dom";
 import { postDoctor } from "../../lib/slices/doctorSlice";
+import { getDepartments } from "../../lib/slices/departmentSlice";
 
 const theme = createTheme({
     palette: {
@@ -32,9 +31,9 @@ export default function AddDoctor() {
     const { loadingPost } = useSelector((state: RootState) => state.doctor)
     const navigate = useNavigate()
 
-    const [data, setData] = useState<{ name: string, image: string, speciality: string, department_id: string, mobile_number: string, job_date: string, address: string, salary: string, days: string[], fromTo: string[] }>({
+    const [data, setData] = useState<{ name: string, image: File|undefined, speciality: string, department_id: string, mobile_number: string, job_date: string, address: string, salary: string, days: string[], fromTo: string[] }>({
         name: '',
-        image: '/favicon.ico',
+        image: undefined,
         speciality: '',
         department_id: '',
         mobile_number: '',
@@ -44,6 +43,7 @@ export default function AddDoctor() {
         days: [],
         fromTo: [new Date().toString(), new Date().toString()]
     })
+    const [imageRef, setImageRef] = useState('/favicon.ico')
     const [error, setError] = useState({
         name: '',
         image: '',
@@ -54,13 +54,18 @@ export default function AddDoctor() {
         address: '',
         salary: '',
         days: '',
-        fromTo:''
+        fromTo: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDepartments(departments.map((department: department) => { return { id: department.id, name: department.name } }))
-    }, [])
+        dispatch(getDepartments()).unwrap().then(result => {
+            setAllDepartments(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
@@ -69,12 +74,13 @@ export default function AddDoctor() {
     const handleSwitchImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const newPic = e.target.files[0]
+            setData(prev => ({ ...prev, image: newPic }))
 
             const reader = new FileReader();
             reader.readAsDataURL(newPic);
 
             reader.onloadend = function () {
-                setData(prev => ({ ...prev, image: reader.result as string }))
+                setImageRef(reader.result as string)
             }
         }
 
@@ -91,29 +97,47 @@ export default function AddDoctor() {
             address: '',
             salary: '',
             days: '',
-            fromTo:''
+            fromTo: ''
         })
         try {
             await validateDoctor.validate(data, { abortEarly: false })
-            const formData = new FormData()
-            formData.append('name', data.name)
-            formData.append('image', data.image)
-            formData.append('speciality', data.speciality)
-            formData.append('department_id', data.department_id)
-            formData.append('mobile_number', data.mobile_number)
-            formData.append('job_date', data.job_date)
-            formData.append('address', data.address)
-            formData.append('salary', data.salary)
-            formData.append('days', data.days.join())
-            formData.append('fromTo', data.fromTo.join())
+            // const formData = new FormData()
+            // formData.append('name', data.name)
+            // formData.append('image', data.image as File)
+            // formData.append('speciality', data.speciality)
+            // formData.append('department_id', data.department_id)
+            // formData.append('mobile_number', data.mobile_number)
+            // formData.append('job_date', data.job_date)
+            // formData.append('address', data.address)
+            // formData.append('salary', data.salary)
+            // formData.append('days', data.days.join())
+            // formData.append('start_work', dayjs(data.fromTo[0]).format('HH-mm'))
+            // formData.append('end_work', dayjs(data.fromTo[1]).format('HH-mm'))
 
-            dispatch(postDoctor(formData)).unwrap().then(() => {
-                navigate('/')
+            // console.log(data.image)
+            // console.log(formData)
+
+            const form={
+                name:data.name,
+                image:data.image as File,
+                speciality:data.speciality,
+                department_id:data.department_id,
+                mobile_number:data.mobile_number,
+                job_date:data.job_date,
+                address:data.address,
+                salary:data.salary,
+                days:data.days,
+                start_work:dayjs(data.fromTo[0]).format('HH:mm'),
+                end_work:dayjs(data.fromTo[1]).format('HH:mm'),
+            }
+            console.log(form)
+
+            dispatch(postDoctor(form)).unwrap().then(() => {
+                navigate('/doctors')
             }).catch((error) => {
-                console.log("🚀 ~ dispatch ~ error:", error.message)
+                setErrorFromBackend(error.message)
             })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -130,7 +154,7 @@ export default function AddDoctor() {
 
 
                 <div className="flex flex-col justify-center items-center gap-5">
-                    <img src={data.image} alt={data.name} style={{ height: '100px' }} />
+                    <img src={imageRef} alt={data.name} style={{ height: '100px' }} />
                     <Button variant="contained" component="label" sx={{
                         backgroundColor: 'var(--primary)',
                         '&:hover': {
@@ -170,7 +194,7 @@ export default function AddDoctor() {
                                         if (e.currentTarget.checked) {
                                             setData(prev => ({
                                                 ...prev,
-                                                days: [...prev.days,e.currentTarget.value]
+                                                days: [...prev.days, e.currentTarget.value]
                                             }))
                                         }
                                         else
@@ -209,9 +233,9 @@ export default function AddDoctor() {
                     </ThemeProvider>
                 </div>
                 <BasicTextField val={data.salary} handleChange={handleChange} error={error.salary} name="salary" label="Salary" />
-                <BasicSelectDate val={data.job_date} setVal={setData} error={error.job_date} name='job_date' label='Job Date'/>
+                <BasicSelectDate val={data.job_date} setVal={setData} error={error.job_date} name='job_date' label='Job Date' />
 
-
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

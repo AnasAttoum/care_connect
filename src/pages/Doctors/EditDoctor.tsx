@@ -5,8 +5,6 @@ import { validateDoctor } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import { Button, createTheme, FormHelperText, ThemeProvider } from "@mui/material";
 import BasicSelect from "../../components/BasicSelect";
-import { departments, doctors } from "../../constants/data";
-import { department } from "../../constants/types";
 import { useNavigate, useParams } from "react-router-dom";
 import BasicSelectDate from "../../components/BasicSelectDate";
 import { Checkbox, List, ListItem } from "@mui/joy";
@@ -18,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
 import { getDoctor, putDoctor } from "../../lib/slices/doctorSlice";
 import Loading from "../Loading";
+import { getDepartments } from "../../lib/slices/departmentSlice";
 
 const theme = createTheme({
     palette: {
@@ -61,8 +60,12 @@ export default function EditDoctor() {
 
     const [allDepartments, setAllDepartments] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setAllDepartments(departments.map((department: department) => { return { id: department.id, name: department.name } }))
-    }, [])
+        dispatch(getDepartments()).unwrap().then(result => {
+            setAllDepartments(result.data)
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
 
     useEffect(() => {
         if (id) {
@@ -70,22 +73,22 @@ export default function EditDoctor() {
                 console.log(result)
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
-                const found = doctors.find((doctor) => {
-                    return doctor.id === parseInt(id)
-                })
-                if (found)
-                    setData({
-                        name: found.name,
-                        image: found.image,
-                        speciality: found.speciality,
-                        department_id: found.department.id,
-                        mobile_number: found.mobile_number,
-                        job_date: found.job_date,
-                        address: found.address,
-                        salary: found.salary,
-                        days: found.days,
-                        fromTo: [dayjs(found.fromTo[0],'HH:mm:ss').toString(),dayjs(found.fromTo[1],'HH:mm:ss').toString()]
-                })
+                // const found = doctors.find((doctor) => {
+                //     return doctor.id === parseInt(id)
+                // })
+                // if (found)
+                //     setData({
+                //         name: found.name,
+                //         image: found.image,
+                //         speciality: found.speciality,
+                //         department_id: found.department.id,
+                //         mobile_number: found.mobile_number,
+                //         job_date: found.job_date,
+                //         address: found.address,
+                //         salary: found.salary,
+                //         days: found.days,
+                //         fromTo: [dayjs(found.fromTo[0],'HH:mm:ss').toString(),dayjs(found.fromTo[1],'HH:mm:ss').toString()]
+                // })
             })
         }
     }, [id, dispatch])
@@ -142,7 +145,6 @@ export default function EditDoctor() {
                     console.log("🚀 ~ dispatch ~ error:", error.message)
                 })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))

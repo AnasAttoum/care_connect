@@ -12,7 +12,6 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { Box, createTheme, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-import { patients, rooms } from '../constants/data';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -40,7 +39,8 @@ export default function FullScreenDialog({ open, setOpen, selectedRoomID }: {
     const handleClose = () => {
         setOpen(false);
     };
-    const bedsNumber = (selectedRoomID && rooms.find((room) => { return room.id === selectedRoomID })) ? rooms.find((room) => { return room.id === selectedRoomID })?.beds_number || 0 : 0
+    const bedsNumber = selectedRoomID || 0
+    // (selectedRoomID && rooms.find((room) => { return room.id === selectedRoomID })) ? rooms.find((room) => { return room.id === selectedRoomID })?.beds_number || 0 : 0
     React.useEffect(()=>{
         setPatientsInThisRoom(
             Array.from({ length: bedsNumber }).map(() => {
@@ -122,9 +122,9 @@ export default function FullScreenDialog({ open, setOpen, selectedRoomID }: {
                                                 }}
                                             >
                                                 <MenuItem value={0}>Empty</MenuItem>
-                                                {patients.map(({ id, name }, index) => {
+                                                {/* {patients.map(({ id, name }, index) => {
                                                     return <MenuItem value={id} key={index}>{name}</MenuItem>
-                                                })}
+                                                })} */}
                                             </Select>
                                         </FormControl>
                                     </Box>

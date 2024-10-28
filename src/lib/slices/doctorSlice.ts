@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
-import { doctor } from '../../constants/types'
 
 export const getDoctors = createAsyncThunk(
   'doctor/getDoctors',
@@ -20,17 +19,25 @@ export const getDoctor = createAsyncThunk(
 
 export const postDoctor = createAsyncThunk(
   'doctor/postDoctor',
-  async (data: FormData) => {
-    const response = await axiosInstance.post('doctors', data)
-    return response.data
+  async (data:any, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('doctors', data)
+      return response.data
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
   },
 )
 
 export const putDoctor = createAsyncThunk(
   'doctor/putDoctor',
-  async ({ data, id }: { data: FormData, id: string }) => {
+  async ({ data, id }: { data: FormData, id: string }, { rejectWithValue }) => {
+    try {
     const response = await axiosInstance.put(`doctors/${id}`, data)
     return response.data
+  } catch (err: any) {
+    return rejectWithValue(err.response.data);
+  }
   },
 )
 
@@ -42,13 +49,12 @@ export const deleteDoctor = createAsyncThunk(
   },
 )
 
-const initialState: { loading: string, loadingDoctor: string, loadingPost: string, loadingPut: string, loadingDelete: string, doctors: doctor[] } = {
+const initialState: { loading: string, loadingDoctor: string, loadingPost: string, loadingPut: string, loadingDelete: string } = {
   loading: '',
   loadingDoctor: '',
   loadingPost: '',
   loadingPut: '',
   loadingDelete: '',
-  doctors: []
 }
 
 export const doctorSlice = createSlice({
@@ -56,10 +62,8 @@ export const doctorSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getDoctors.fulfilled, (state, action) => {
+    builder.addCase(getDoctors.fulfilled, (state) => {
       state.loading = 'fulfilled'
-      console.log(state)
-      console.log(action)
       //   state.entities.push(action.payload)
     })
       .addCase(getDoctors.pending, (state) => {
@@ -69,10 +73,8 @@ export const doctorSlice = createSlice({
         state.loading = 'rejected'
       })
 
-      .addCase(getDoctor.fulfilled, (state, action) => {
+      .addCase(getDoctor.fulfilled, (state) => {
         state.loadingDoctor = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(getDoctor.pending, (state) => {
@@ -82,10 +84,8 @@ export const doctorSlice = createSlice({
         state.loadingDoctor = 'rejected'
       })
 
-      .addCase(postDoctor.fulfilled, (state, action) => {
+      .addCase(postDoctor.fulfilled, (state) => {
         state.loadingPost = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(postDoctor.pending, (state) => {
@@ -95,10 +95,8 @@ export const doctorSlice = createSlice({
         state.loadingPost = 'rejected'
       })
 
-      .addCase(putDoctor.fulfilled, (state, action) => {
+      .addCase(putDoctor.fulfilled, (state) => {
         state.loadingPut = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(putDoctor.pending, (state) => {
@@ -108,10 +106,8 @@ export const doctorSlice = createSlice({
         state.loadingPut = 'rejected'
       })
 
-      .addCase(deleteDoctor.fulfilled, (state, action) => {
+      .addCase(deleteDoctor.fulfilled, (state) => {
         state.loadingDelete = 'fulfilled'
-        console.log(state)
-        console.log(action)
         //   state.entities.push(action.payload)
       })
       .addCase(deleteDoctor.pending, (state) => {

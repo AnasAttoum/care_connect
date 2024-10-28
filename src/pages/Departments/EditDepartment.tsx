@@ -3,7 +3,6 @@ import Title from "../../components/Title";
 import BasicTextField from "../../components/BasicTextField";
 import { validateDepartment } from "../../validations/validation";
 import { useNavigate, useParams } from "react-router-dom";
-import { departments } from "../../constants/data";
 import Btn from "../../components/Btn";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
@@ -39,11 +38,11 @@ export default function EditDepartment() {
                 })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
-                const found = departments.find((department) => {
-                    return department.id === parseInt(id)
-                })
-                if (found)
-                    setData(found)
+                // const found = departments.find((department) => {
+                //     return department.id === parseInt(id)
+                // })
+                // if (found)
+                //     setData(found)
             })
         }
     }, [id, dispatch])

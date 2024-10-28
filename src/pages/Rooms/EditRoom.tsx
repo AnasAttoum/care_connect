@@ -4,7 +4,6 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateRoom } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
-import { rooms } from "../../constants/data";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../lib/store";
@@ -57,18 +56,18 @@ export default function EditRoom() {
                 })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
-                const found = rooms.find((room) => {
-                    return room.id === parseInt(id)
-                })
+                // const found = rooms.find((room) => {
+                //     return room.id === parseInt(id)
+                // })
 
-                if (found)
-                    setData({
-                        room_number: found.room_number,
-                        status: found.status,
-                        department_id: found.department.id,
-                        type: found.type,
-                        beds_number: found.beds_number
-                    })
+                // if (found)
+                //     setData({
+                //         room_number: found.room_number,
+                //         status: found.status,
+                //         department_id: found.department.id,
+                //         type: found.type,
+                //         beds_number: found.beds_number
+                //     })
             })
         }
     }, [id, dispatch])

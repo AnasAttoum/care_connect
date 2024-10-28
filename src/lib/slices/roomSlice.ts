@@ -2,9 +2,17 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from '../axiosInstance'
 
 export const getRooms = createAsyncThunk(
-  'room/getDepartments',
+  'room/getRooms',
   async (page: number) => {
     const response = await axiosInstance.get(`rooms?page=${page}`)
+    return response.data
+  },
+)
+
+export const getListOfRooms = createAsyncThunk(
+  'room/getListOfRooms',
+  async () => {
+    const response = await axiosInstance.get('roomList')
     return response.data
   },
 )

@@ -11,8 +11,7 @@ import BasicSelectDate from "../../../components/BasicSelectDate";
 import BasicTextField from "../../../components/BasicTextField";
 import { Box, createTheme, TextField, ThemeProvider } from "@mui/material";
 import { getDoctors } from "../../../lib/slices/doctorSlice";
-import { rooms } from "../../../constants/data";
-import { room } from "../../../constants/types";
+import { getListOfRooms } from "../../../lib/slices/roomSlice";
 
 const theme = createTheme({
     palette: {
@@ -57,7 +56,13 @@ export default function AddMedicalRecord() {
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
         })
-        setAllRooms(rooms.map((room: room) => { return { id: room.id || 0, name: room.room_number.toString() } }))
+        dispatch(getListOfRooms()).unwrap().then(result => {
+            setAllRooms(result.data.map((room:{id:number,room_number:number})=>{
+                return{id:room.id,name:room.room_number.toString()}
+            }))
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
     }, [dispatch])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

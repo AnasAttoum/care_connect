@@ -1,6 +1,5 @@
 import { useInView } from "react-intersection-observer";
 import Title from "../../components/Title";
-import { doctors } from "../../constants/data";
 import { useEffect, useState } from "react";
 import FloatingButton from "../../components/FloatingButton";
 import DoctorCard from "../../components/Cards/DoctorCard";
@@ -16,6 +15,7 @@ export default function Doctors() {
     const dispatch = useDispatch<AppDispatch>()
     const { loading } = useSelector((state: RootState) => state.department)
     const [totalDoctors, setTotalDoctors] = useState<doctor[]>([])
+    const [del, setDelete] = useState<number>()
 
     useEffect(() => {
         if (inView)
@@ -26,12 +26,18 @@ export default function Doctors() {
 
     useEffect(() => {
         dispatch(getDoctors()).unwrap().then(result => {
-            console.log("🚀 ~ useEffect ~ result:", result)
+            setTotalDoctors(result.data)
         }).catch((error) => {
             console.log("🚀 ~ dispatch ~ error:", error.message)
-            setTotalDoctors(doctors)
         })
     }, [dispatch])
+
+    useEffect(() => {
+        if (del)
+            setTotalDoctors(prev => prev.filter((el) => {
+                return el.id !== del
+            }))
+    }, [del])
 
     return (
         <>
@@ -44,7 +50,7 @@ export default function Doctors() {
 
                         <div className="flex flex-wrap justify-center gap-x-7 gap-y-16 mt-16" ref={ref}>
                             {totalDoctors.map((doctor, index) => {
-                                return <DoctorCard key={index} doctor={doctor} />
+                                return <DoctorCard key={index} doctor={doctor} setDelete={setDelete}/>
                             })}
                         </div>
                     </div>

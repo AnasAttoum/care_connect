@@ -4,12 +4,14 @@ import BasicTextField from "../../components/BasicTextField";
 import { validateSurgery } from "../../validations/validation";
 import Btn from "../../components/Btn";
 import BasicSelect from "../../components/BasicSelect";
-import { doctors, patients, rooms } from "../../constants/data";
 import BasicSelectDate from "../../components/BasicSelectDate";
 import { AppDispatch, RootState } from "../../lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { postSurgery } from "../../lib/slices/SurgeriesSlice";
+import { getListOfRooms } from "../../lib/slices/roomSlice";
+import { getListOfPatients } from "../../lib/slices/patientSlice";
+import { getDoctors } from "../../lib/slices/doctorSlice";
 
 export default function AddSurgery() {
 
@@ -34,21 +36,32 @@ export default function AddSurgery() {
         schedule_date: ''
     })
 
-    const [resources, setResources] = useState<{ patients: { id: number, name: string }[], doctors: { id: number, name: string }[], rooms: { id: number, name: string }[] }>({ patients: [], doctors: [], rooms: [] })
+    const [allRooms, setAllRooms] = useState<{ id: number; name: string; }[]>([])
+    const [allPatients, setAllPatients] = useState<{ id: number; name: string; }[]>([])
+    const [allDoctors, setAllDoctors] = useState<{ id: number; name: string; }[]>([])
     useEffect(() => {
-        setResources(prev => ({
-            ...prev,
-            patients: patients.map((patient) => {
-                return { id: patient.id, name: patient.name }
-            }),
-            doctors: doctors.map((doctor) => {
-                return { id: doctor.id, name: doctor.name }
-            }),
-            rooms: rooms.map((room) => {
-                return { id: room.id, name: room.room_number.toString() }
-            })
-        }))
-    }, [])
+        dispatch(getListOfRooms()).unwrap().then(result => {
+            setAllRooms(result.data.map((room:{id:number,room_number:number})=>{
+                return{id:room.id,name:room.room_number.toString()}
+            }))
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+        dispatch(getListOfPatients()).unwrap().then(result => {
+            setAllPatients(result.data.map((patient:{id:number,name:string})=>{
+                return{id:patient.id,name:patient.name}
+            }))
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+        dispatch(getDoctors()).unwrap().then(result => {
+            setAllDoctors(result.data.map((doctor:{id:number,name:string})=>{
+                return{id:doctor.id,name:doctor.name}
+            }))
+        }).catch((error) => {
+            console.log("🚀 ~ dispatch ~ error:", error.message)
+        })
+    }, [dispatch])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
@@ -75,12 +88,11 @@ export default function AddSurgery() {
             formData.append('schedule_date', data.schedule_date)
 
             dispatch(postSurgery(formData)).unwrap().then(() => {
-                navigate('/')
+                navigate('/surgeries')
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
             })
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             error.inner.forEach(({ path, message }: { path: string, message: string }) => {
                 setError(prev => ({ ...prev, [path]: message }))
@@ -96,9 +108,9 @@ export default function AddSurgery() {
                 <Title title="Add Surgery" />
 
                 <BasicTextField val={data.operation_name} handleChange={handleChange} error={error.operation_name} name="operation_name" label="Operation Name" />
-                <BasicSelect val={data.patient_id} setVal={setData} error={error.patient_id} name="patient_id" label="Patient" data={resources.patients} />
-                <BasicSelect val={data.doctor_id} setVal={setData} error={error.doctor_id} name="doctor_id" label="Doctor" data={resources.doctors} />
-                <BasicSelect val={data.room_number} setVal={setData} error={error.room_number} name="room_number" label="Room" data={resources.rooms} />
+                <BasicSelect val={data.patient_id} setVal={setData} error={error.patient_id} name="patient_id" label="Patient" data={allPatients} />
+                <BasicSelect val={data.doctor_id} setVal={setData} error={error.doctor_id} name="doctor_id" label="Doctor" data={allDoctors} />
+                <BasicSelect val={data.room_number} setVal={setData} error={error.room_number} name="room_number" label="Room" data={allRooms} />
                 <BasicTextField val={data.duration} handleChange={handleChange} error={error.duration} name="duration" label="Duration (Hours)" />
                 <BasicSelectDate val={data.schedule_date} setVal={setData} error={error.schedule_date} name='schedule_date' label='Schedule Date'/>
 

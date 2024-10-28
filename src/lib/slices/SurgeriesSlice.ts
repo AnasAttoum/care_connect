@@ -1,126 +1,132 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { axiosInstance } from '../axiosInstance'
-import { surgery } from '../../constants/types'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { axiosInstance } from "../axiosInstance";
 
 export const getSurgeries = createAsyncThunk(
-  'surgerery/getSurgeries',
-  async () => {
-    const response = await axiosInstance.get('surjical-operations')
-    return response.data
-  },
-)
+  "surgerery/getSurgeries",
+  async (page:number) => {
+    const response = await axiosInstance.get(`surjical-operations?page=${page}`);
+    return response.data;
+  }
+);
 
 export const getSurgery = createAsyncThunk(
-  'surgerery/getSurgery',
+  "surgerery/getSurgery",
   async (id: string) => {
-    const response = await axiosInstance.get(`surjical-operations/${id}`)
-    return response.data
-  },
-)
+    const response = await axiosInstance.get(`surjical-operations/${id}`);
+    return response.data;
+  }
+);
 
 export const postSurgery = createAsyncThunk(
-  'surgerery/postSurgery',
-  async (data: FormData) => {
-    const response = await axiosInstance.post('surjical-operations', data)
-    return response.data
-  },
-)
+  "surgerery/postSurgery",
+  async (data: FormData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("surjical-operations", data);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const putSurgery = createAsyncThunk(
-  'surgery/putSurgery',
-  async ({ data, id }: { data: FormData, id: string }) => {
-    const response = await axiosInstance.put(`surjical-operations/${id}`, data)
-    return response.data
-  },
-)
+  "surgery/putSurgery",
+  async ({ data, id }: { data: FormData; id: string }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(
+        `surjical-operations/${id}`,
+        data
+      );
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const deleteSurgery = createAsyncThunk(
-  'surgerery/deleteSurgery',
+  "surgerery/deleteSurgery",
   async (id: string) => {
-    const response = await axiosInstance.delete(`surjical-operations/${id}`)
-    return response.data
-  },
-)
+    const response = await axiosInstance.delete(`surjical-operations/${id}`);
+    return response.data;
+  }
+);
 
-const initialState: { loading: string, loadingSurgery: string, loadingPost: string, loadingPut: string, loadingDelete: string, surgeries: surgery[] } = {
-  loading: '',
-  loadingSurgery: '',
-  loadingPost: '',
-  loadingPut: '',
-  loadingDelete: '',
-  surgeries: []
-}
+const initialState: {
+  loading: string;
+  loadingSurgery: string;
+  loadingPost: string;
+  loadingPut: string;
+  loadingDelete: string;
+} = {
+  loading: "",
+  loadingSurgery: "",
+  loadingPost: "",
+  loadingPut: "",
+  loadingDelete: "",
+};
 
 export const SurgeriesSlice = createSlice({
-  name: 'surgery',
+  name: "surgery",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getSurgeries.fulfilled, (state, action) => {
-      state.loading = 'fulfilled'
-      console.log(state)
-      console.log(action)
-      //   state.entities.push(action.payload)
-    })
+    builder
+      .addCase(getSurgeries.fulfilled, (state) => {
+        state.loading = "fulfilled";
+        //   state.entities.push(action.payload)
+      })
       .addCase(getSurgeries.pending, (state) => {
-        state.loading = 'pending'
+        state.loading = "pending";
       })
       .addCase(getSurgeries.rejected, (state) => {
-        state.loading = 'rejected'
+        state.loading = "rejected";
       })
 
-      .addCase(getSurgery.fulfilled, (state, action) => {
-        state.loadingSurgery = 'fulfilled'
-        console.log(state)
-        console.log(action)
+      .addCase(getSurgery.fulfilled, (state) => {
+        state.loadingSurgery = "fulfilled";
         //   state.entities.push(action.payload)
       })
       .addCase(getSurgery.pending, (state) => {
-        state.loadingSurgery = 'pending'
+        state.loadingSurgery = "pending";
       })
       .addCase(getSurgery.rejected, (state) => {
-        state.loadingSurgery = 'rejected'
+        state.loadingSurgery = "rejected";
       })
 
-      .addCase(postSurgery.fulfilled, (state, action) => {
-        state.loadingPost = 'fulfilled'
-        console.log(state)
-        console.log(action)
+      .addCase(postSurgery.fulfilled, (state) => {
+        state.loadingPost = "fulfilled";
         //   state.entities.push(action.payload)
       })
       .addCase(postSurgery.pending, (state) => {
-        state.loadingPost = 'pending'
+        state.loadingPost = "pending";
       })
       .addCase(postSurgery.rejected, (state) => {
-        state.loadingPost = 'rejected'
+        state.loadingPost = "rejected";
       })
 
-      .addCase(putSurgery.fulfilled, (state, action) => {
-        state.loadingPut = 'fulfilled'
-        console.log(state)
-        console.log(action)
+      .addCase(putSurgery.fulfilled, (state) => {
+        state.loadingPut = "fulfilled";
         //   state.entities.push(action.payload)
       })
       .addCase(putSurgery.pending, (state) => {
-        state.loadingPut = 'pending'
+        state.loadingPut = "pending";
       })
       .addCase(putSurgery.rejected, (state) => {
-        state.loadingPut = 'rejected'
+        state.loadingPut = "rejected";
       })
 
-      .addCase(deleteSurgery.fulfilled, (state, action) => {
-        state.loadingDelete = 'fulfilled'
-        console.log(state)
-        console.log(action)
+      .addCase(deleteSurgery.fulfilled, (state) => {
+        state.loadingDelete = "fulfilled";
         //   state.entities.push(action.payload)
       })
       .addCase(deleteSurgery.pending, (state) => {
-        state.loadingDelete = 'pending'
+        state.loadingDelete = "pending";
       })
       .addCase(deleteSurgery.rejected, (state) => {
-        state.loadingDelete = 'rejected'
-      })
+        state.loadingDelete = "rejected";
+      });
   },
-})
+});
 
-export default SurgeriesSlice.reducer
+export default SurgeriesSlice.reducer;

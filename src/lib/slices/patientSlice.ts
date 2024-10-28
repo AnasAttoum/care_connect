@@ -3,8 +3,16 @@ import { axiosInstance } from '../axiosInstance'
 
 export const getPatients = createAsyncThunk(
   'patient/getPatients',
+  async (page: number) => {
+    const response = await axiosInstance.get(`patients?page=${page}`)
+    return response.data
+  },
+)
+
+export const getListOfPatients = createAsyncThunk(
+  'patient/getListOfPatients',
   async () => {
-    const response = await axiosInstance.get('patients')
+    const response = await axiosInstance.get('patientsList')
     return response.data
   },
 )

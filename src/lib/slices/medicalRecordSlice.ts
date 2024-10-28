@@ -3,8 +3,8 @@ import { axiosInstance } from '../axiosInstance'
 
 export const getMedicalRecords = createAsyncThunk(
   'medicalRecord/getMedicalRecords',
-  async () => {
-    const response = await axiosInstance.get('medical-records')
+  async (page: number) => {
+    const response = await axiosInstance.get(`medical-records?page=${page}`)
     return response.data
   },
 )
