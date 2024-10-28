@@ -19,7 +19,7 @@ export const getSurgery = createAsyncThunk(
 
 export const postSurgery = createAsyncThunk(
   "surgerery/postSurgery",
-  async (data: FormData, { rejectWithValue }) => {
+  async (data: any, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("surjical-operations", data);
       return response.data;
@@ -31,7 +31,7 @@ export const postSurgery = createAsyncThunk(
 
 export const putSurgery = createAsyncThunk(
   "surgery/putSurgery",
-  async ({ data, id }: { data: FormData; id: string }, { rejectWithValue }) => {
+  async ({ data, id }: { data: any; id: string }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put(
         `surjical-operations/${id}`,

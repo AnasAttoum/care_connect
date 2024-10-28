@@ -70,7 +70,19 @@ export default function EditDoctor() {
     useEffect(() => {
         if (id) {
             dispatch(getDoctor(id)).unwrap().then(result => {
-                console.log(result)
+                console.log(dayjs().format()+result.data.start_work)
+                setData({
+                    name: result.data.name,
+                    image: import.meta.env.VITE_API_Server + result.data.image,
+                    speciality: result.data.speciality,
+                    department_id: result.data.department.id,
+                    mobile_number: result.data.mobile_number,
+                    job_date: result.data.job_date,
+                    address: result.data.address,
+                    salary: result.data.salary,
+                    days: result.data.days,
+                    fromTo: [dayjs().format('YYYY-MM-DD')+result.data.start_work, dayjs().format('YYYY-MM-DD')+result.data.end_work]
+                })
             }).catch((error) => {
                 console.log("🚀 ~ dispatch ~ error:", error.message)
                 // const found = doctors.find((doctor) => {

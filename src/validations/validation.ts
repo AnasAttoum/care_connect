@@ -9,7 +9,7 @@ export const validateLogIn = Yup.object({
 
 export const validateDepartment = Yup.object({
     name: Yup.string().required('Invalid name').min(2,'Name must be more than 1 characters').max(20,'Name must be less than 20 characters'),
-    phone_number: Yup.string().required('Invalid phone number').min(7,'Phone number must be more than 6 characters').max(10,'Phone number must be less than 20 characters'),
+    phone_number: Yup.string().required('Invalid phone number').min(7,'Phone number must be more than 6 characters').max(10,'Phone number must be less than 10 characters'),
     description: Yup.string().required('Invalid description').min(2,'Description must be more than 1 characters').max(255,'Description must be less than 255 characters')
 })
 

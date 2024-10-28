@@ -37,6 +37,7 @@ export default function EditSurgery() {
         duration: '',
         schedule_date: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     useEffect(() => {
         if (id) {
@@ -111,19 +112,30 @@ export default function EditSurgery() {
         })
         try {
             await validateSurgery.validate(data, { abortEarly: false })
-            const formData = new FormData()
-            formData.append('operation_name', data.operation_name)
-            formData.append('patient_id', data.patient_id.toString())
-            formData.append('doctor_id', data.doctor_id.toString())
-            formData.append('room_id', data.room_id.toString())
-            formData.append('duration', data.duration.toString())
-            formData.append('schedule_date', data.schedule_date)
+            // const formData = new FormData()
+            // formData.append('operation_name', data.operation_name)
+            // formData.append('patient_id', data.patient_id.toString())
+            // formData.append('doctor_id', data.doctor_id.toString())
+            // formData.append('doctor_ids', data.doctor_id.toString())
+            // formData.append('room_id', data.room_id.toString())
+            // formData.append('duration', data.duration.toString())
+            // formData.append('schedule_date', data.schedule_date)
+
+            const form={
+                operation_name:data.operation_name,
+                patient_id:data.patient_id,
+                doctor_id:data.doctor_id,
+                doctor_ids:[data.doctor_id],
+                room_id:data.room_id,
+                duration:data.duration,
+                schedule_date:data.schedule_date,
+            }
 
             if (id)
-                dispatch(putSurgery({ data: formData, id: id })).unwrap().then(() => {
+                dispatch(putSurgery({ data: form, id: id })).unwrap().then(() => {
                     navigate('/surgeries')
                 }).catch((error) => {
-                    console.log("🚀 ~ dispatch ~ error:", error.message)
+                    setErrorFromBackend(error.message)
                 })
         }
         catch (error: any) {
@@ -151,6 +163,7 @@ export default function EditSurgery() {
                         <BasicTextField val={data.duration} handleChange={handleChange} error={error.duration} name="duration" label="Duration (Hours)" />
                         <BasicSelectDate val={data.schedule_date} setVal={setData} error={error.schedule_date} name='schedule_date' label='Schedule Date' />
 
+                        <div className="text-center text-red-500">{errorFromBackend}</div>
                         <Btn click={handleEdit} title="Edit" />
                         {loadingPut === 'pending' &&
                             <div className="flex justify-center my-5">

@@ -35,6 +35,7 @@ export default function AddSurgery() {
         duration: '',
         schedule_date: ''
     })
+    const [errorFromBackend, setErrorFromBackend] = useState('')
 
     const [allRooms, setAllRooms] = useState<{ id: number; name: string; }[]>([])
     const [allPatients, setAllPatients] = useState<{ id: number; name: string; }[]>([])
@@ -79,18 +80,29 @@ export default function AddSurgery() {
         })
         try {
             await validateSurgery.validate(data, { abortEarly: false })
-            const formData = new FormData()
-            formData.append('operation_name', data.operation_name)
-            formData.append('patient_id', data.patient_id)
-            formData.append('doctor_id', data.doctor_id)
-            formData.append('room_number', data.room_number)
-            formData.append('duration', data.duration)
-            formData.append('schedule_date', data.schedule_date)
+            // const formData = new FormData()
+            // formData.append('operation_name', data.operation_name)
+            // formData.append('patient_id', data.patient_id)
+            // formData.append('doctor_id', data.doctor_id)
+            // formData.append('doctor_ids', data.doctor_id)
+            // formData.append('room_id', data.room_number)
+            // formData.append('duration', data.duration)
+            // formData.append('schedule_date', data.schedule_date)
 
-            dispatch(postSurgery(formData)).unwrap().then(() => {
+            const form={
+                operation_name:data.operation_name,
+                patient_id:data.patient_id,
+                doctor_id:data.doctor_id,
+                doctor_ids:[data.doctor_id],
+                room_id:data.room_number,
+                duration:data.duration,
+                schedule_date:data.schedule_date,
+            }
+
+            dispatch(postSurgery(form)).unwrap().then(() => {
                 navigate('/surgeries')
             }).catch((error) => {
-                console.log("🚀 ~ dispatch ~ error:", error.message)
+                setErrorFromBackend(error.message)
             })
         }
         catch (error: any) {
@@ -114,6 +126,7 @@ export default function AddSurgery() {
                 <BasicTextField val={data.duration} handleChange={handleChange} error={error.duration} name="duration" label="Duration (Hours)" />
                 <BasicSelectDate val={data.schedule_date} setVal={setData} error={error.schedule_date} name='schedule_date' label='Schedule Date'/>
 
+                <div className="text-center text-red-500">{errorFromBackend}</div>
                 <Btn click={handleAdd} title="Add" />
                 {loadingPost === 'pending' &&
                     <div className="flex justify-center my-5">

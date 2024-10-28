@@ -74,7 +74,7 @@ export default function AddDoctor() {
     const handleSwitchImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const newPic = e.target.files[0]
-            setData(prev => ({ ...prev, image: newPic }))
+            setData(prev => ({ ...prev, image: e.target.files?.[0] }))
 
             const reader = new FileReader();
             reader.readAsDataURL(newPic);
@@ -110,9 +110,9 @@ export default function AddDoctor() {
             // formData.append('job_date', data.job_date)
             // formData.append('address', data.address)
             // formData.append('salary', data.salary)
-            // formData.append('days', data.days.join())
-            // formData.append('start_work', dayjs(data.fromTo[0]).format('HH-mm'))
-            // formData.append('end_work', dayjs(data.fromTo[1]).format('HH-mm'))
+            // formData.append('days', data.days)
+            // formData.append('start_work', dayjs(data.fromTo[0]).format('HH:mm'))
+            // formData.append('end_work', dayjs(data.fromTo[1]).format('HH:mm'))
 
             // console.log(data.image)
             // console.log(formData)
