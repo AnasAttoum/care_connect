@@ -125,7 +125,6 @@ export default function EditSurgery() {
                 operation_name:data.operation_name,
                 patient_id:data.patient_id,
                 doctor_id:data.doctor_id,
-                doctor_ids:[data.doctor_id],
                 room_id:data.room_id,
                 duration:data.duration,
                 schedule_date:data.schedule_date,

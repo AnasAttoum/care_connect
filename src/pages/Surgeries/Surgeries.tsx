@@ -12,6 +12,7 @@ import { AppDispatch, RootState } from "../../lib/store";
 import { surgery } from "../../constants/types";
 import { deleteSurgery, getSurgeries } from "../../lib/slices/SurgeriesSlice";
 import Loading from "../Loading";
+import dayjs from "dayjs";
 
 
 export default function Surgeries() {
@@ -79,7 +80,7 @@ export default function Surgeries() {
       headerName: "Patient",
       width: 200,
       renderCell: (params) => {
-        return <span>{params.row.patient_id.name}</span>;
+        return <span>{params.row.patient.name}</span>;
       },
     },
     {
@@ -87,7 +88,7 @@ export default function Surgeries() {
       headerName: "Doctor",
       width: 200,
       renderCell: (params) => {
-        return <span>{params.row.doctor_id.name}</span>;
+        return <span>{params.row.doctor.name}</span>;
       },
     },
     {
@@ -95,7 +96,7 @@ export default function Surgeries() {
       headerName: "Room Number",
       width: 200,
       renderCell: (params) => {
-        return <span>{params.row.room_id.room_number}</span>;
+        return <span>{params.row.room.name}</span>;
       },
     },
     {
@@ -106,7 +107,16 @@ export default function Surgeries() {
         return <span>{params.row.duration} Hours</span>;
       },
     },
-    { field: "schedule_date", headerName: "Schedule Date", width: 200 },
+    {
+      field: "schedule_date",
+      headerName: "Schedule Date",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <span>{dayjs(params.row.schedule_date).format("YYYY/MM/DD")}</span>
+        );
+      },
+    },
     {
       field: "",
       headerName: "Actions",

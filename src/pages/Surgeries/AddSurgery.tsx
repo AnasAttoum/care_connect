@@ -23,7 +23,7 @@ export default function AddSurgery() {
         operation_name: '',
         patient_id: '',
         doctor_id: '',
-        room_number: '',
+        room_id: '',
         duration: '',
         schedule_date: ''
     })
@@ -31,7 +31,7 @@ export default function AddSurgery() {
         operation_name: '',
         patient_id: '',
         doctor_id: '',
-        room_number: '',
+        room_id: '',
         duration: '',
         schedule_date: ''
     })
@@ -74,7 +74,7 @@ export default function AddSurgery() {
             operation_name: '',
             patient_id: '',
             doctor_id: '',
-            room_number: '',
+            room_id: '',
             duration: '',
             schedule_date: ''
         })
@@ -85,7 +85,7 @@ export default function AddSurgery() {
             // formData.append('patient_id', data.patient_id)
             // formData.append('doctor_id', data.doctor_id)
             // formData.append('doctor_ids', data.doctor_id)
-            // formData.append('room_id', data.room_number)
+            // formData.append('room_id', data.room_id)
             // formData.append('duration', data.duration)
             // formData.append('schedule_date', data.schedule_date)
 
@@ -93,8 +93,7 @@ export default function AddSurgery() {
                 operation_name:data.operation_name,
                 patient_id:data.patient_id,
                 doctor_id:data.doctor_id,
-                doctor_ids:[data.doctor_id],
-                room_id:data.room_number,
+                room_id:data.room_id,
                 duration:data.duration,
                 schedule_date:data.schedule_date,
             }
@@ -122,7 +121,7 @@ export default function AddSurgery() {
                 <BasicTextField val={data.operation_name} handleChange={handleChange} error={error.operation_name} name="operation_name" label="Operation Name" />
                 <BasicSelect val={data.patient_id} setVal={setData} error={error.patient_id} name="patient_id" label="Patient" data={allPatients} />
                 <BasicSelect val={data.doctor_id} setVal={setData} error={error.doctor_id} name="doctor_id" label="Doctor" data={allDoctors} />
-                <BasicSelect val={data.room_number} setVal={setData} error={error.room_number} name="room_number" label="Room" data={allRooms} />
+                <BasicSelect val={data.room_id} setVal={setData} error={error.room_id} name="room_id" label="Room" data={allRooms} />
                 <BasicTextField val={data.duration} handleChange={handleChange} error={error.duration} name="duration" label="Duration (Hours)" />
                 <BasicSelectDate val={data.schedule_date} setVal={setData} error={error.schedule_date} name='schedule_date' label='Schedule Date'/>
 
